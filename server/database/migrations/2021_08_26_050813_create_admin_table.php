@@ -26,7 +26,6 @@ class CreateAdminTable extends Migration
             $table->datetime('auth_created');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->datetime('last_login')->nullable();
-            $table->rememberToken();
             $table->datetime('activated_at')->nullable();
             $table->timestamps();
 
