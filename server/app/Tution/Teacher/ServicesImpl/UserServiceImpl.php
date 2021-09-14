@@ -21,7 +21,10 @@ class UserServiceImpl implements UserService
     public function register(Request $request)
     {
         $input = $request->only('name', 'email', 'password');
+
         $createUser = $this->repo->create($input);
+
+        $createUser['data'] = [];
 
         return $createUser;
     }

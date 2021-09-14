@@ -62,7 +62,7 @@ class UserRepositoryImpl implements UserRepository
             'status' => true,
             'code' => 201,
             'data' => $user,
-            'msg' => 'User created!',
+            'msg' => 'Verification email is send to ' . $user->email . '. Please also check your spam folder.',
         ];
     }
 

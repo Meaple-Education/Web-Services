@@ -45,3 +45,31 @@ services:
     ports:
       - 6380:6379
     container_name: meaple_tution_redis
+
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile.dev
+    links:
+      - php
+    volumes:
+      - /app/node_modules
+      - ./admin:/app
+    ports:
+      - "3001:8080"
+    container_name: meaple_tution_admin
+
+  teacher:
+    build:
+      context: ./teacher
+      dockerfile: Dockerfile.dev
+    links:
+      - php
+    volumes:
+      - /app/node_modules
+      - ./teacher:/app
+    ports:
+      - "3002:3000"
+    stdin_open: true
+    tty: true
+    container_name: meaple_tution_teacher
