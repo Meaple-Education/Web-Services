@@ -1,11 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" errors="0" time="5.005">
-  <testsuite name="Home page Test" errors="0" failures="0" skipped="0" timestamp="2021-09-24T20:53:38" time="3.193" tests="1">
-    <testcase classname="Home page Test home page should render" name="Home page Test home page should render" time="0.003">
+<testsuites name="jest tests" tests="14" failures="0" errors="0" time="5.527">
+  <testsuite name="Verify Account page Test" errors="0" failures="0" skipped="0" timestamp="2021-09-25T14:47:19" time="2.084" tests="4">
+    <testcase classname="Verify Account page Test Verify Account page should render" name="Verify Account page Test Verify Account page should render" time="0.027">
+    </testcase>
+    <testcase classname="Verify Account page Test Should have success axios verification" name="Verify Account page Test Should have success axios verification" time="0.064">
+    </testcase>
+    <testcase classname="Verify Account page Test Should have failed axios verification" name="Verify Account page Test Should have failed axios verification" time="0.057">
+    </testcase>
+    <testcase classname="Verify Account page Test Should have failed axios verification with empty error message" name="Verify Account page Test Should have failed axios verification with empty error message" time="0.058">
     </testcase>
   </testsuite>
-  <testsuite name="Sample text" errors="0" failures="0" skipped="0" timestamp="2021-09-24T20:53:41" time="0.044" tests="1">
-    <testcase classname="Sample text Sample test" name="Sample text Sample test" time="0.001">
+  <testsuite name="Profile page Test" errors="0" failures="0" skipped="0" timestamp="2021-09-25T14:47:21" time="0.062" tests="1">
+    <testcase classname="Profile page Test Profile page should render" name="Profile page Test Profile page should render" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="Input atom Test" errors="0" failures="0" skipped="0" timestamp="2021-09-25T14:47:21" time="0.058" tests="1">
+    <testcase classname="Input atom Test Input atom should render" name="Input atom Test Input atom should render" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="AuthHoc Test" errors="0" failures="0" skipped="0" timestamp="2021-09-25T14:47:21" time="0.04" tests="1">
+    <testcase classname="AuthHoc Test AuthHoc should work" name="AuthHoc Test AuthHoc should work" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Dashboard page Test" errors="0" failures="0" skipped="0" timestamp="2021-09-25T14:47:21" time="0.941" tests="1">
+    <testcase classname="Dashboard page Test Dashboard page should render" name="Dashboard page Test Dashboard page should render" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="Home page Test" errors="0" failures="0" skipped="0" timestamp="2021-09-25T14:47:22" time="0.23" tests="1">
+    <testcase classname="Home page Test home page should render" name="Home page Test home page should render" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="StudentList page Test" errors="0" failures="0" skipped="0" timestamp="2021-09-25T14:47:23" time="0.2" tests="1">
+    <testcase classname="StudentList page Test StudentList page should render" name="StudentList page Test StudentList page should render" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="StudentCreate page Test" errors="0" failures="0" skipped="0" timestamp="2021-09-25T14:47:23" time="0.327" tests="1">
+    <testcase classname="StudentCreate page Test StudentCreate page should render" name="StudentCreate page Test StudentCreate page should render" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="StudentDetail page Test" errors="0" failures="0" skipped="0" timestamp="2021-09-25T14:47:23" time="0.209" tests="1">
+    <testcase classname="StudentDetail page Test StudentDetail page should render" name="StudentDetail page Test StudentDetail page should render" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Signup page Test" errors="0" failures="0" skipped="0" timestamp="2021-09-25T14:47:23" time="0.158" tests="1">
+    <testcase classname="Signup page Test Signup page should render" name="Signup page Test Signup page should render" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Signin page Test" errors="0" failures="0" skipped="0" timestamp="2021-09-25T14:47:24" time="0.144" tests="1">
+    <testcase classname="Signin page Test Signin page should render" name="Signin page Test Signin page should render" time="0.003">
     </testcase>
   </testsuite>
 </testsuites>

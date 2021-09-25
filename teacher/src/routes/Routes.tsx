@@ -3,12 +3,13 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import SigninPage from '../components/pages/auth/SigninPage';
 import SignupPage from '../components/pages/auth/SignupPage';
 import VerifyAccountPage from '../components/pages/auth/VerifyAccountPage';
-import DashboardPage from '../components/pages/DasboardPage';
+import DashboardPage from '../components/pages/DashboardPage';
 import HomePage from '../components/pages/HomePage';
 import ProfilePage from '../components/pages/ProfilePage';
 import StudentCreatePage from '../components/pages/student/StudentCreatePage';
 import StudentDetailPage from '../components/pages/student/StudentDetailPage';
 import StudentListPage from '../components/pages/student/StudentListPage';
+import AuthHoc from '../hoc/AuthHoc';
 import { PageEndpoint } from './PageEndPoint';
 
 class Routes extends React.Component {
@@ -43,7 +44,7 @@ class Routes extends React.Component {
                 <Route
                     path={PageEndpoint.dashboard}
                     exact
-                    component={DashboardPage}
+                    component={AuthHoc(DashboardPage)}
                 />
                 <Route
                     path={PageEndpoint.studentList}
