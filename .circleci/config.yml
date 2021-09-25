@@ -35,6 +35,11 @@ jobs:
       - image: circleci/node:15.12.0
     steps:
       - run: echo "Building staging"
+  build_prod:
+    docker:
+      - image: circleci/node:15.12.0
+    steps:
+      - run: echo "Building production"
 
 workflows:
   version: 2
@@ -63,3 +68,9 @@ workflows:
           filters:
             branches:
               only: develop
+      - build_prod:
+          requires:
+            - deploy_code_coverage
+          filters:
+            branches:
+              only: master
