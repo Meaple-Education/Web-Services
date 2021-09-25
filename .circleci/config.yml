@@ -25,6 +25,11 @@ jobs:
       - image: circleci/node:15.12.0
     steps:
       - run: echo "Hello world website Test"
+  deploy_code_coverage:
+    docker:
+      - image: circleci/node:15.12.0
+    steps:
+      - run: echo "Deploying dev code coverage"
   build_staging:
     docker:
       - image: circleci/node:15.12.0
@@ -33,20 +38,28 @@ jobs:
 
 workflows:
   version: 2
-  build_staging:
+  build_and_deploy:
     jobs:
       - test_api
       - test_admin
-      - test_frontend
+      - test_teacher
       - test_student
       - test_website
-      - build_staging:
+      - deploy_code_coverage:
           requires:
             - test_api
             - test_admin
-            - test_frontend
+            - test_teacher
             - test_student
             - test_website
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+      - build_staging:
+          requires:
+            - deploy_code_coverage
           filters:
             branches:
               only: develop
