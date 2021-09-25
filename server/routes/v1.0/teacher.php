@@ -28,4 +28,5 @@ Route::post('/', function (Request $request) {
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::post('register', 'V1\\Teacher\\UserController@register')->name('register');
+    Route::post('verify-account', 'V1\\Teacher\\UserController@verifyAccount')->name('verifyAccount');
 });

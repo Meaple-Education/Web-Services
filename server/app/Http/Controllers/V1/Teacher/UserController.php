@@ -47,4 +47,10 @@ class UserController extends Controller
         $profile = $this->service->getProfile($request);
         return response()->json($profile, $profile['code']);
     }
+
+    public function verifyAccount(Request $request)
+    {
+        $verifyAccount = $this->service->verifyAccount($request);
+        return response()->json($verifyAccount, $verifyAccount['code']);
+    }
 }
