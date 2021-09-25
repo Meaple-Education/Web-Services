@@ -37,14 +37,14 @@ workflows:
     jobs:
       - test_api
       - test_admin
-      - test_frontend
+      - test_teacher
       - test_student
       - test_website
       - build_staging:
           requires:
             - test_api
             - test_admin
-            - test_frontend
+            - test_teacher
             - test_student
             - test_website
           filters:
