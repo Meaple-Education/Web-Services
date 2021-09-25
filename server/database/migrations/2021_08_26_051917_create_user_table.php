@@ -24,6 +24,7 @@ class CreateUserTable extends Migration
             $table->unsignedBigInteger('status')->default(1);
             $table->datetime('auth_created')->nullable();
             $table->datetime('last_login')->nullable();
+            $table->boolean('email_verified')->default(0);
             $table->datetime('activated_at')->nullable();
             $table->timestamps();
 

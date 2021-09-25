@@ -1,0 +1,52 @@
+version: 2
+jobs:
+  test_api:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+    steps:
+      - run: echo "Hello world PHP Test"
+  test_admin:
+    docker:
+      - image: circleci/node:15.12.0
+    steps:
+      - run: echo "Hello world Admin Test"
+  test_teacher:
+    docker:
+      - image: circleci/node:15.12.0
+    steps:
+      - run: echo "Hello world teacher Test"
+  test_student:
+    docker:
+      - image: circleci/node:15.12.0
+    steps:
+      - run: echo "Hello world student Test"
+  test_website:
+    docker:
+      - image: circleci/node:15.12.0
+    steps:
+      - run: echo "Hello world website Test"
+  build_staging:
+    docker:
+      - image: circleci/node:15.12.0
+    steps:
+      - run: echo "Building staging"
+
+workflows:
+  version: 2
+  build_staging:
+    jobs:
+      - test_api
+      - test_admin
+      - test_frontend
+      - test_student
+      - test_website
+      - build_staging:
+          requires:
+            - test_api
+            - test_admin
+            - test_frontend
+            - test_student
+            - test_website
+          filters:
+            branches:
+              only: develop

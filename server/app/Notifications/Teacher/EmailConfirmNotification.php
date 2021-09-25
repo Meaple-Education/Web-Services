@@ -47,7 +47,7 @@ class EmailConfirmNotification extends Notification
             ->line('Click the button below to verify.')
             ->action(
                 'Verify',
-                env('TEACHER_URL') . '?code=' . $this->code . '&email=' . $this->email,
+                env('TEACHER_URL') . config('teacher.url.verification') . '?code=' . $this->code . '&email=' . $this->email,
             )
             ->line('Thank you for using our application!');
     }

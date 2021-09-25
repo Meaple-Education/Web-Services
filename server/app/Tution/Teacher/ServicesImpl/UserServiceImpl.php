@@ -180,6 +180,47 @@ class UserServiceImpl implements UserService
         ];
     }
 
+    public function verifyAccount(Request $request)
+    {
+        $input = $request->only('email', 'code');
+
+        $validator = Validator::make($input, [
+            'email' => 'required|email|exists:user,email',
+            'code' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'status' => false,
+                'code' => 422,
+                'msg' => $validator->errors()->all()[0],
+                'data' => [$input],
+            ];
+        }
+
+        $user = $this->repo->getByEmail($input['email']);
+
+        // if ($user->email_verified) {
+        //     return [
+        //         'status' => true,
+        //         'code' => 200,
+        //         'data' => [],
+        //         'msg' => 'Email is already verified.'
+        //     ];
+        // }
+
+        if (!Hash::check($user->id . $user->auth_code, $input['code'])) {
+            return [
+                'status' => false,
+                'code' => 422,
+                'data' => [],
+                'msg' => 'Invalid verification code!',
+            ];
+        }
+
+        return $this->repo->verify($user->id);
+    }
+
     public function updateProfileImage(Request $request)
     {
     }

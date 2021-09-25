@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Notifications\Teacher\EmailConfirmNotification;
 use Illuminate\Database\Seeder;
 
 class UserTableSeeder extends Seeder
@@ -28,6 +29,8 @@ class UserTableSeeder extends Seeder
 
         foreach ($userList as $user) {
             User::insert($user);
+            $user = User::where('email', $user['email'])->first();
+            // $user->notify(new EmailConfirmNotification(bcrypt($user->id . $user->auth_code), $user->email));
         }
     }
 }

@@ -77,7 +77,7 @@ class UserRepositoryImpl implements UserRepository
         try {
             $user = User::find($id);
             $user->email_verified = true;
-            $user->verified_at = gmdate("Y-m-d H:i:s");
+            $user->activated_at = gmdate("Y-m-d H:i:s");
             $user->save();
         } catch (\Exception $e) {
             DB::rollback();
@@ -85,7 +85,7 @@ class UserRepositoryImpl implements UserRepository
                 'status' => false,
                 'code' => 422,
                 'data' => [],
-                'msg' => 'Failed to create user!',
+                'msg' => 'Failed to verify user!',
             ];
 
             if (config('app.debug')) {

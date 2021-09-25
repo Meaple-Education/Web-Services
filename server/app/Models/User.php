@@ -31,6 +31,7 @@ class User extends Authenticatable
         'auth_created',
         'created_by',
         'last_login',
+        'email_verified',
         'activated_at',
     ];
 
