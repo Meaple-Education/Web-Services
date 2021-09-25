@@ -1,0 +1,73 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    links:
+      - db
+      - php
+    volumes:
+      - ./server:/var/www/html
+      - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 8080:80
+    working_dir: /var/www/html
+    container_name: mt_nginx
+
+  php:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    links:
+      - db
+      - redis
+    volumes:
+      - ./server:/var/www/html
+    working_dir: /var/www/html
+    environment:
+      DB_HOST: db
+      REDIS_HOST: redis
+    container_name: mt_api
+
+  db:
+    image: mysql:8.0.3
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: meelay_tution
+    ports:
+      - 33080:3306
+    container_name: mt_db
+
+  redis:
+    image: redis:3.2.11
+    ports:
+      - 6380:6379
+    container_name: mt_redis
+
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile.dev
+    links:
+      - php
+    volumes:
+      - /app/node_modules
+      - ./admin:/app
+    ports:
+      - 3001:8080
+    container_name: mt_admin
+
+  teacher:
+    build:
+      context: ./teacher
+      dockerfile: Dockerfile.dev
+    links:
+      - php
+    volumes:
+      - /app/node_modules
+      - ./teacher:/app
+    ports:
+      - 3002:3000
+    stdin_open: true
+    tty: true
+    container_name: mt_teacher

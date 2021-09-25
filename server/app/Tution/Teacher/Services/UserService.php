@@ -16,6 +16,8 @@ interface UserService
 
     public function getProfile(Request $request);
 
+    public function verifyAccount(Request $request);
+
     public function updateProfileImage(Request $request);
 
     public function updateProfile(Request $request);
