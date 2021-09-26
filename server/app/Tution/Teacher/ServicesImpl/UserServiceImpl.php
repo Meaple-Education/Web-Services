@@ -232,4 +232,9 @@ class UserServiceImpl implements UserService
     public function verifyOTP(string $key, string $code)
     {
     }
+
+    public function comeOnSampleTest(Request $request)
+    {
+        return 2;
+    }
 }
