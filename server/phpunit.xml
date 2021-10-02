@@ -19,6 +19,7 @@
     </coverage>
     <php>
         <server name="APP_ENV" value="testing"/>
+        <server name="APP_KEY" value="base64:KkrqJZTz7Xyg68YpyJDWti3kxD+1QDOkAZimnM8MCwY="/>
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="APP_DEBUG" value="false"/>
         <server name="CACHE_DRIVER" value="array"/>
