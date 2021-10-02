@@ -3,7 +3,7 @@ jobs:
   test_api:
     working_directory: ~/repo/server
     docker:
-      - image: php:7.4.0-fpm
+      - image: circleci/php:7.4-apache-node-browsers-legacy
     steps:
       - checkout:
           path: ~/repo
