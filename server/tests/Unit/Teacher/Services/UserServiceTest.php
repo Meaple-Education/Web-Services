@@ -153,4 +153,69 @@ class UserServiceTest extends TestCase
             'data' => [],
         ], $login);
     }
+
+    public function test_verify_already_verified()
+    {
+        $this->prepLoginTest();
+
+        $this->request->merge([
+            'email' => 'test@gmail.com',
+            'code' => ''
+        ]);
+
+        $verify = $this->service->verify($this->request);
+
+        $this->assertEquals([
+            'status' => true,
+            'code' => 200,
+            'msg' => 'Verification success!',
+            'data' => [],
+        ], $verify);
+    }
+
+    public function test_verify_invalid_code()
+    {
+        $this->prepLoginTest();
+        \App\Models\User::where('id', 1)
+            ->update([
+                'email_verified' => 0,
+            ]);
+
+        $this->request->merge([
+            'email' => 'test@gmail.com',
+            'code' => ''
+        ]);
+
+        $verify = $this->service->verify($this->request);
+
+        $this->assertEquals([
+            'status' => false,
+            'code' => '422',
+            'data' => [],
+            'msg' => 'Invalid verification code!',
+        ], $verify);
+    }
+
+    public function test_verify()
+    {
+        $this->prepLoginTest();
+        \App\Models\User::where('id', 1)
+            ->update([
+                'email_verified' => 0,
+            ]);
+
+        $this->request->merge([
+            'email' => 'test@gmail.com',
+            'code' => bcrypt('1XVOMEQ6DEFV3KSUN'),
+        ]);
+
+        $verify = $this->service->verify($this->request);
+
+        $this->assertEquals([
+            'status' => true,
+            'code' => 200,
+            'data' => [],
+            'msg' => 'Verification success.'
+        ], $verify);
+    }
 }

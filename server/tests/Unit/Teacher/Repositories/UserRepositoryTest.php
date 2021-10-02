@@ -358,6 +358,9 @@ class UserRepositoryTest extends TestCase
             ]);
         $wrongAttempted = $repo->wrongAttempted(1);
 
+        $session = \App\Models\UserSession::find(1);
+
+        $this->assertEquals($session->is_valid, 0);
         $this->assertEquals([
             'status' => true,
             'code' => 200,
