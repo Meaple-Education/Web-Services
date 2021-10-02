@@ -7,9 +7,9 @@ jobs:
     steps:
       - checkout:
           path: ~/repo
-      - run: sudo apt install -y sqlite3 zlib1g-dev
-      - run: sudo docker-php-ext-install zip
-      - run: sudo composer self-update
+      - run: apt install -y sqlite3 zlib1g-dev
+      - run: docker-php-ext-install zip
+      - run: composer self-update
       - restore_cache:
           keys:
             - composer-v1-{{ checksum "composer.lock" }}
