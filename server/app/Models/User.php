@@ -86,6 +86,13 @@ class User extends Authenticatable
         return $google2Fa->verifyKey($this->auth_code, $otp);
     }
 
+    public function currentOTP()
+    {
+        // initialize Google 2 factor authentication lib
+        $google2Fa = new Google2FA();
+        return $google2Fa->getCurrentOtp($this->auth_code);
+    }
+
     public function getIdentifier()
     {
         $identifier = '';

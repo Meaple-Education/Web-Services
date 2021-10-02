@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\V1\Teacher;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Teacher\RegisterRequest;
+use App\Http\Requests\V1\Teacher\Auth\LoginRequest;
+use App\Http\Requests\V1\Teacher\Auth\RegisterRequest;
 use App\Tution\Teacher\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class UserController extends Controller
         return response()->json($register, $register['code']);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $login = $this->service->login($request);
         return response()->json($login, $login['code']);

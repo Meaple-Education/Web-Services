@@ -33,23 +33,9 @@ class UserServiceImpl implements UserService
     {
         $input = $request->only('email', 'otp');
 
-        $validator = Validator::make($input, [
-            'email' => 'required|email|exists:user,email',
-            'otp' => 'required|min:6|max:6'
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'status' => false,
-                'code' => 422,
-                'msg' => $validator->errors()->all()[0],
-                'data' => [],
-            ];
-        }
-
         $userInfo = $this->repo->getByEmail($input['email']);
 
-        if ($userInfo->email_verified === 0) {
+        if ((int)$userInfo->email_verified === 0) {
             return [
                 'status' => false,
                 'code' => 422,
@@ -58,7 +44,7 @@ class UserServiceImpl implements UserService
             ];
         }
 
-        if ($userInfo->status !== 1) {
+        if ((int) $userInfo->status !== 1) {
             return [
                 'status' => false,
                 'code' => 422,
@@ -78,17 +64,19 @@ class UserServiceImpl implements UserService
 
         $createSession = $this->repo->createSession($userInfo->id);
 
-        if (!$createSession['status']) {
-            return $createSession;
+        if ($createSession['status']) {
+            $createSession = [
+                'status' => true,
+                'code' => 200,
+                'msg' => 'Login success!',
+                'data' => [
+                    'token' => $userInfo->createToken('app')->accessToken->token,
+                    'sessionIdentifier' => $createSession['data']->identifier
+                ],
+            ];
         }
 
-        return [
-            'status' => true,
-            'code' => 200,
-            'msg' => 'Login success!',
-            'token' => $userInfo->createToken('app')->accessToken,
-            'sessionIdentifier' => $createSession['data']->identifier
-        ];
+        return $createSession;
     }
 
     public function verify(Request $request)
