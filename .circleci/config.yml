@@ -3,7 +3,7 @@ jobs:
   test_api:
     working_directory: ~/repo/server
     docker:
-      - image: circleci/php:7.1-node-browsers
+      - image: circleci/php:7.3.3
     steps:
       - checkout:
           path: ~/repo
@@ -50,7 +50,7 @@ jobs:
             - node_modules
       - run:
           name: Run Test
-          command: yarn test:staging-coverage
+          command: yarn test
       - store_artifacts:
           path: ./coverage
       - store_test_results:
