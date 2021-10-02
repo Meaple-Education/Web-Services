@@ -1,15 +1,36 @@
 version: 2
 jobs:
   test_api:
+    working_directory: ~/repo/server
     docker:
       - image: circleci/php:7.1-node-browsers
     steps:
-      - run: echo "Hello world PHP Test"
+      - checkout:
+          path: ~/repo
+      - run: sudo apt install -y libsqlite3-dev zlib1g-dev
+      - run: sudo docker-php-ext-install zip
+      - run: sudo composer self-update
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - run:
+          name: Run Test
+          command: XDEBUG_MODE=coverage ./vendor/bin/phpunit
+      - store_artifacts:
+          path: ./test-report
+
   test_admin:
     docker:
       - image: circleci/node:15.12.0
     steps:
       - run: echo "Hello world Admin Test"
+
   test_teacher:
     working_directory: ~/repo/teacher
     docker:
@@ -29,31 +50,36 @@ jobs:
             - node_modules
       - run:
           name: Run Test
-          command: yarn test
+          command: yarn test:staging-coverage
       - store_artifacts:
           path: ./coverage
       - store_test_results:
           path: ./coverage/junit/
+
   test_student:
     docker:
       - image: circleci/node:15.12.0
     steps:
       - run: echo "Hello world student Test"
+
   test_website:
     docker:
       - image: circleci/node:15.12.0
     steps:
       - run: echo "Hello world website Test"
+
   deploy_code_coverage:
     docker:
       - image: circleci/node:15.12.0
     steps:
       - run: echo "Deploying dev code coverage"
+
   build_staging:
     docker:
       - image: circleci/node:15.12.0
     steps:
       - run: echo "Building staging"
+
   build_prod:
     docker:
       - image: circleci/node:15.12.0
