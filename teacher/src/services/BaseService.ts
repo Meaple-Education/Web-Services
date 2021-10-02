@@ -1,10 +1,6 @@
 import axios from "axios";
 
 export default class BaseService {
-    constructor() {
-
-    }
-
     getMethod(url: string) {
         return axios.get(url);
     }

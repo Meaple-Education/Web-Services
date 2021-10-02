@@ -24,5 +24,5 @@ interface UserRepository
 
     function createSession($id);
 
-    function delte($id);
+    function delete($id);
 }

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Str;
+
 use App\Notifications\Teacher\EmailConfirmNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -82,5 +84,16 @@ class User extends Authenticatable
         // initialize Google 2 factor authentication lib
         $google2Fa = new Google2FA();
         return $google2Fa->verifyKey($this->auth_code, $otp);
+    }
+
+    public function getIdentifier()
+    {
+        $identifier = '';
+
+        do {
+            $identifier = Str::random(247) . date("Ymd");
+        } while (UserSession::where('identifier', $identifier)->count() !== 0);
+
+        return $identifier;
     }
 }

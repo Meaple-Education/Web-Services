@@ -24,7 +24,7 @@ class UserRepositoryImpl implements UserRepository
 
     function get()
     {
-        User::paginate(30);
+        return User::paginate(30);
     }
 
     function create($input)
@@ -49,8 +49,10 @@ class UserRepositoryImpl implements UserRepository
             ];
 
             if (config('app.debug')) {
+                // @codeCoverageIgnoreStart
                 $res['error']['msg'] = $e->getMessage();
                 $res['error']['stack'] = $e->getTrace();
+                // @codeCoverageIgnoreEnd
             }
 
             return $res;
@@ -68,6 +70,43 @@ class UserRepositoryImpl implements UserRepository
 
     function update($id, $input)
     {
+        $res = [
+            'status' => true,
+            'code' => 200,
+            'data' => [],
+            'msg' => 'Success',
+        ];
+
+        DB::beginTransaction();
+
+        try {
+            $user = $this->getOne($id);
+            $user->name = (string) $input['name'];
+            $user->phone = (string) $input['phone'];
+            $user->image = (string) $input['image'];
+            $user->save();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $res = [
+                'status' => false,
+                'code' => 422,
+                'data' => [],
+                'msg' => 'Failed to update user info!',
+            ];
+
+            if (config('app.debug')) {
+                // @codeCoverageIgnoreStart
+                $res['error']['msg'] = $e->getMessage();
+                $res['error']['stack'] = $e->getTrace();
+                // @codeCoverageIgnoreEnd
+            }
+
+            return $res;
+        }
+
+        DB::commit();
+
+        return $res;
     }
 
     function verify($id)
@@ -89,8 +128,10 @@ class UserRepositoryImpl implements UserRepository
             ];
 
             if (config('app.debug')) {
+                // @codeCoverageIgnoreStart
                 $res['error']['msg'] = $e->getMessage();
                 $res['error']['stack'] = $e->getTrace();
+                // @codeCoverageIgnoreEnd
             }
 
             return $res;
@@ -124,8 +165,10 @@ class UserRepositoryImpl implements UserRepository
             ];
 
             if (config('app.debug')) {
+                // @codeCoverageIgnoreStart
                 $res['error']['msg'] = $e->getMessage();
                 $res['error']['stack'] = $e->getTrace();
+                // @codeCoverageIgnoreEnd
             }
 
             return $res;
@@ -174,8 +217,10 @@ class UserRepositoryImpl implements UserRepository
             ];
 
             if (config('app.debug')) {
+                // @codeCoverageIgnoreStart
                 $res['error']['msg'] = $e->getMessage();
                 $res['error']['stack'] = $e->getTrace();
+                // @codeCoverageIgnoreEnd
             }
 
             return $res;
@@ -188,6 +233,41 @@ class UserRepositoryImpl implements UserRepository
 
     function updateStatus($id, $status)
     {
+        $res = [
+            'status' => true,
+            'code' => 200,
+            'data' => [],
+            'msg' => 'Success',
+        ];
+
+        DB::beginTransaction();
+
+        try {
+            $user = $this->getOne($id);
+            $user->status = $status;
+            $user->save();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $res = [
+                'status' => false,
+                'code' => 422,
+                'data' => [],
+                'msg' => 'Failed to update user status!',
+            ];
+
+            if (config('app.debug')) {
+                // @codeCoverageIgnoreStart
+                $res['error']['msg'] = $e->getMessage();
+                $res['error']['stack'] = $e->getTrace();
+                // @codeCoverageIgnoreEnd
+            }
+
+            return $res;
+        }
+
+        DB::commit();
+
+        return $res;
     }
 
     function createSession($id)
@@ -198,14 +278,16 @@ class UserRepositoryImpl implements UserRepository
 
         try {
             $agent = new Agent();
+
             $userSession = UserSession::create([
                 'parent_id' => $id,
+                'identifier' => $this->getOne($id)->getIdentifier(),
                 'browser' => (string) $agent->browser(),
                 'ip' => (string) $_SERVER['REMOTE_ADDR'],
                 'os' => (string) $agent->platform(),
                 'last_login' => gmdate("Y-m-d H:i:s")
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable | \Exception $e) {
             DB::rollback();
             $res = [
                 'status' => false,
@@ -215,8 +297,10 @@ class UserRepositoryImpl implements UserRepository
             ];
 
             if (config('app.debug')) {
+                // @codeCoverageIgnoreStart
                 $res['error']['msg'] = $e->getMessage();
                 $res['error']['stack'] = $e->getTrace();
+                // @codeCoverageIgnoreEnd
             }
 
             return $res;
@@ -232,7 +316,38 @@ class UserRepositoryImpl implements UserRepository
         ];
     }
 
-    function delte($id)
+    function delete($id)
     {
+        DB::beginTransaction();
+
+        try {
+            User::where('id', $id)->delete();
+            // @codeCoverageIgnoreStart
+        } catch (\Exception $e) {
+            DB::rollback();
+            $res = [
+                'status' => false,
+                'code' => 422,
+                'data' => [],
+                'msg' => 'Failed to delete user!',
+            ];
+
+            if (config('app.debug')) {
+                $res['error']['msg'] = $e->getMessage();
+                $res['error']['stack'] = $e->getTrace();
+            }
+
+            return $res;
+        }
+        // @codeCoverageIgnoreEnd
+
+        DB::commit();
+
+        return [
+            'status' => true,
+            'code' => 200,
+            'data' => [],
+            'msg' => 'User deleted!',
+        ];
     }
 }

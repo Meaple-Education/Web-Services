@@ -11,10 +11,27 @@ jobs:
     steps:
       - run: echo "Hello world Admin Test"
   test_teacher:
+    working_directory: ~/repo/teacher
     docker:
       - image: circleci/node:15.12.0
     steps:
-      - run: echo "Hello world teacher Test"
+      - checkout:
+          path: ~/repo
+      - run:
+          name: Node version
+          command: node -v
+      - run:
+          name: Yarn Install
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run Test
+          command: yarn test
+      - store_test_results:
+          path: ./coverage/junit/
   test_student:
     docker:
       - image: circleci/node:15.12.0
