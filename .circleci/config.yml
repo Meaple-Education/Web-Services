@@ -21,9 +21,11 @@ jobs:
             - vendor
       - run:
           name: Run Test
-          command: XDEBUG_MODE=coverage ./vendor/bin/phpunit
+          command: chmod +x run_test.sh && ./run_test.sh
       - store_artifacts:
           path: ./test-report
+      - store_test_results:
+          path: ./test-report/
 
   test_admin:
     docker:
@@ -41,6 +43,10 @@ jobs:
       - run:
           name: Node version
           command: node -v
+      - restore_cache:
+          keys:
+            - dependency-cache-{{ checksum "package.json" }}
+            - dependency-cache-
       - run:
           name: Yarn Install
           command: yarn install
