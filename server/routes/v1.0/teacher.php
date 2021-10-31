@@ -28,5 +28,13 @@ Route::post('/', function (Request $request) {
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::post('register', 'V1\\Teacher\\UserController@register')->name('register');
-    Route::post('verify-account', 'V1\\Teacher\\UserController@verifyAccount')->name('verifyAccount');
+    Route::post('login', 'V1\\Teacher\\UserController@login')->name('login');
+    Route::post('verify/account', 'V1\\Teacher\\UserController@verifyAccount')->name('verifyAccount');
+});
+
+Route::group(['middleware' => ['auth:api', 'v1.teacher.token']], function () {
+    Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('profile', 'V1\\Teacher\\UserController@getProfile')->name('profile');
+        Route::post('verify/password', 'V1\\Teacher\\UserController@passwordVerify')->name('verifyPassword');
+    });
 });

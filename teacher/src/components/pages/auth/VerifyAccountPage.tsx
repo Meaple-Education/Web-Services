@@ -32,29 +32,36 @@ class VerifyAccountPage extends React.Component<IProps, IStates> {
         let code = urlParams.get('code') || '';
         let email = urlParams.get('email') || '';
 
-        const authService = new AuthService();
+        if (code !== '' && email !== '') {
 
-        const verifyAccount = await authService.verifyAccount(code, email);
+            const authService = new AuthService();
+            const verifyAccount = await authService.verifyAccount(code, email);
 
-        if (!verifyAccount.status) {
-            this.setState({
-                validating: false,
-                hasError: true,
-                errorMesg: verifyAccount.msg,
-            });
-            return;
+            if (!verifyAccount.status) {
+                this.setState({
+                    validating: false,
+                    hasError: true,
+                    errorMesg: verifyAccount.msg,
+                });
+            } else {
+                this.setState({
+                    validating: false,
+                });
+            }
         } else {
             this.setState({
                 validating: false,
+                hasError: true,
+                errorMesg: 'Invalid request!',
             });
         }
     }
 
     verificationSuccessUI() {
-        return <>
-            Validation complete<br />
+        return <div data-test="verificationSuccessSection">
+            <span data-test="verificationSuccessMessageSection">Validation complete</span><br />
             <Link to={PageEndpoint.signin}>Login</Link>
-        </>
+        </div>
     }
 
     render() {
@@ -72,7 +79,7 @@ class VerifyAccountPage extends React.Component<IProps, IStates> {
                 }
                 {
                     !validating &&
-                    (hasError ? errorMesg : this.verificationSuccessUI())
+                    (hasError ? <div data-test="verificationFailedSection">{errorMesg}</div> : this.verificationSuccessUI())
                 }
             </div>
         </NonAuthTemplate>;

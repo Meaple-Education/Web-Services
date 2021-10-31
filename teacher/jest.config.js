@@ -11,10 +11,10 @@ module.exports = {
     testPathIgnorePatterns: ["<rootDir>/__tests__/utils/"],
     coverageThreshold: {
         global: {
-            branches: 1,
-            functions: 1,
-            lines: 1,
-            statements: 1,
+            branches: 85,
+            functions: 75,
+            lines: 85,
+            statements: 85,
         },
     },
     collectCoverageFrom: [
@@ -25,6 +25,11 @@ module.exports = {
         '!./**/*.config.js',
         '!./**/*.d.ts',
         '!./node_modules/**',
+        '!./src/index.tsx',
+        '!./src/reportWebVitals.ts',
+        '!./src/setupTests.ts',
+        '!./src/App.tsx',
+        '!./src/routes/Routes.tsx',
     ],
     reporters: ["default", "jest-junit"],
     coverageReporters: [

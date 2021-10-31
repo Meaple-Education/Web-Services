@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\V1\Teacher;
+namespace App\Http\Requests\V1\Teacher\Auth;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegisterRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +26,8 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => 'required|email|unique:user,email',
-            'password' => 'required|min:8',
+            'email' => 'required|email|exists:user,email',
+            'otp' => 'required|min:6|max:6'
         ];
     }
 
