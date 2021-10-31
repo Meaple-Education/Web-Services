@@ -4,6 +4,7 @@ namespace App\Http\Requests\V1\Teacher\Auth;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class VerifyRequest extends FormRequest
 {
@@ -36,6 +37,7 @@ class VerifyRequest extends FormRequest
             'status' => false,
             'code' => 422,
             'data' => [],
+            'debug' => request()->all(),
             'msg' => $validator->errors()->all()[0],
         ], 422));
     }

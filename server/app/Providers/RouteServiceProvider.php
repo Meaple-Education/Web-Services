@@ -54,9 +54,9 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/v1.0/student.php'));
 
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
+            // Route::middleware('web')
+            //     ->namespace($this->namespace)
+            //     ->group(base_path('routes/web.php'));
         });
     }
 
@@ -67,8 +67,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function configureRateLimiting()
     {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
-        });
+        // RateLimiter::for('api', function (Request $request) {
+        //     return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        // });
     }
 }

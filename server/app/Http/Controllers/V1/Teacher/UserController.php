@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\Teacher;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Teacher\Auth\LoginRequest;
 use App\Http\Requests\V1\Teacher\Auth\RegisterRequest;
+use App\Http\Requests\V1\Teacher\Auth\VerifyPasswordRequest;
 use App\Http\Requests\V1\Teacher\Auth\VerifyRequest;
 use App\Tution\Teacher\Services\UserService;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class UserController extends Controller
         return response()->json($login, $login['code']);
     }
 
-    public function passwordVerify(Request $request)
+    public function passwordVerify(VerifyPasswordRequest $request)
     {
         $passwordVerify = $this->service->passwordVerify($request);
         return response()->json($passwordVerify, $passwordVerify['code']);

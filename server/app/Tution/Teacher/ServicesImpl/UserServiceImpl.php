@@ -70,7 +70,7 @@ class UserServiceImpl implements UserService
                 'code' => 200,
                 'msg' => 'Login success!',
                 'data' => [
-                    'token' => $userInfo->createToken('app')->accessToken->token,
+                    'token' => $userInfo->createToken('app')->accessToken,
                     'sessionIdentifier' => $createSession['data']->identifier
                 ],
             ];
@@ -90,14 +90,14 @@ class UserServiceImpl implements UserService
                 'status' => true,
                 'code' => 200,
                 'data' => [],
-                'msg' => 'Verification success!',
+                'msg' => 'Verification success.',
             ];
         }
 
         if (!Hash::check($userInfo->id . $userInfo->auth_code, $input['code'])) {
             return [
                 'status' => false,
-                'code' => '422',
+                'code' => 422,
                 'data' => [],
                 'msg' => 'Invalid verification code!',
             ];
@@ -110,30 +110,19 @@ class UserServiceImpl implements UserService
     {
         $input = $request->only('password');
 
-        $validator = Validator::make($input, [
-            'password' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'status' => false,
-                'code' => 422,
-                'data' => [],
-                'msg' => $validator->errors()->all()[0],
-            ];
-        }
-
         $userInfo = $this->repo->getOne($request->user()->id);
 
         if (!Hash::check($input['password'], $userInfo->password)) {
             $wrongAttempted = $this->repo->wrongAttempted($request->attributes->get('sessionInfo')->id);
             if (!$wrongAttempted['status']) {
+                // @codeCoverageIgnoreStart
                 return $wrongAttempted;
+                // @codeCoverageIgnoreEnd
             }
 
             return [
                 'status' => false,
-                'code' => '422',
+                'code' => 422,
                 'data' => $wrongAttempted['data'],
                 'msg' => 'Invalid password!',
             ];
@@ -148,7 +137,15 @@ class UserServiceImpl implements UserService
             'status' => true,
             'code' => 200,
             'data' => [
-                'info' => $request->user(),
+                'info' => [
+                    'id' => (int) $request->user()->id,
+                    'name' => (string) $request->user()->name,
+                    'email' => (string) $request->user()->email,
+                    'image' => (string) $request->user()->image,
+                    'phone' => (string) $request->user()->phone,
+                    'lastLogin' => (string) $request->user()->last_login,
+                    'activatedAt' => (string) $request->user()->activated_at,
+                ],
             ],
             'msg' => 'Success.'
         ];
@@ -164,10 +161,5 @@ class UserServiceImpl implements UserService
 
     public function verifyOTP(string $key, string $code)
     {
-    }
-
-    public function comeOnSampleTest(Request $request)
-    {
-        return 2;
     }
 }

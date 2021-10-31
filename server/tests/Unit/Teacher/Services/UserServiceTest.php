@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Teacher\Services;
 
+use Auth;
+
 use App\Tution\RepositoriesImpl\UserRepositoryImpl;
 use App\Tution\Teacher\ServicesImpl\UserServiceImpl;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -51,21 +53,6 @@ class UserServiceTest extends TestCase
             'msg' => 'Failed to create user!',
         ], $register);
         $this->assertEquals(count(\App\Models\User::get()), 0);
-    }
-
-    public function prepLoginTest()
-    {
-        \App\Models\User::insert([
-            "name" => "test",
-            "password" => bcrypt('admin123'),
-            "status" => 1,
-            'email_verified' => 1,
-            "email" => "test@gmail.com",
-            "updated_at" => "2021-09-14 20:05:58",
-            "created_at" => "2021-09-14 20:05:58",
-            "auth_code" => "XVOMEQ6DEFV3KSUN",
-            "auth_created" => "2021-09-14 20:05:58"
-        ]);
     }
 
     public function test_login_email_not_verified()
@@ -168,7 +155,7 @@ class UserServiceTest extends TestCase
         $this->assertEquals([
             'status' => true,
             'code' => 200,
-            'msg' => 'Verification success!',
+            'msg' => 'Verification success.',
             'data' => [],
         ], $verify);
     }
@@ -190,7 +177,7 @@ class UserServiceTest extends TestCase
 
         $this->assertEquals([
             'status' => false,
-            'code' => '422',
+            'code' => 422,
             'data' => [],
             'msg' => 'Invalid verification code!',
         ], $verify);
@@ -217,5 +204,98 @@ class UserServiceTest extends TestCase
             'data' => [],
             'msg' => 'Verification success.'
         ], $verify);
+    }
+
+    public function test_password_verify_wrong_attempted()
+    {
+        $this->prepLoginTest();
+        $this->request->merge([
+            'password' => 'admin321',
+        ]);
+
+        $this->request->setUserResolver(function () {
+            return \App\Models\User::find(1);
+        });
+
+        $this->request->attributes->set('sessionInfo', \App\Models\UserSession::first());
+
+        $verify = $this->service->passwordVerify($this->request);
+
+        $this->assertEquals([
+            'status' => false,
+            'code' => 422,
+            'data' => [
+                'isExpire' => false,
+            ],
+            'msg' => 'Invalid password!',
+        ], $verify);
+
+        $this->assertEquals(\App\Models\UserSession::find(1)->wrong_attempted, 1);
+        \App\Models\UserSession::where('id', 1)->update(['wrong_attempted' => 2]);
+
+        $verify = $this->service->passwordVerify($this->request);
+
+        $this->assertEquals([
+            'status' => false,
+            'code' => 422,
+            'data' => [
+                'isExpire' => true,
+            ],
+            'msg' => 'Invalid password!',
+        ], $verify);
+
+        $this->assertEquals(\App\Models\UserSession::find(1)->wrong_attempted, 3);
+        $this->assertEquals(\App\Models\UserSession::find(1)->is_valid, 0);
+    }
+
+    public function test_password_verify()
+    {
+        $this->prepLoginTest();
+        $this->request->merge([
+            'password' => 'admin123',
+        ]);
+
+        $this->request->setUserResolver(function () {
+            return \App\Models\User::find(1);
+        });
+
+        $this->request->attributes->set('sessionInfo', \App\Models\UserSession::first());
+
+        $verify = $this->service->passwordVerify($this->request);
+
+        $this->assertEquals([
+            'status' => true,
+            'code' => 200,
+            'data' => [],
+            'msg' => 'Verification success.',
+        ], $verify);
+    }
+
+    public function test_get_profile()
+    {
+        $this->prepLoginTest();
+
+        $this->request->setUserResolver(function () {
+            return \App\Models\User::find(1);
+        });
+
+        $profile = $this->service->getProfile($this->request);
+
+        $this->assertEquals([
+            'status' => true,
+            'code' => 200,
+            'data' => [
+                'info' => [
+                    'id' => 1,
+                    'name' => 'test',
+                    'email' => 'test@gmail.com',
+                    'image' => '',
+                    'phone' => '',
+                    'lastLogin' => '',
+                    'activatedAt' => '',
+                ]
+            ],
+            'msg' => 'Success.',
+        ], $profile);
     }
 }

@@ -8,7 +8,7 @@ use App\Notifications\Teacher\EmailConfirmNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 use PragmaRX\Google2FA\Google2FA;
 
 class User extends Authenticatable

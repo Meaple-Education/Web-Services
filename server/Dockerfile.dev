@@ -24,6 +24,6 @@ RUN pecl install imagick
 
 RUN docker-php-ext-enable imagick
 
-RUN chmod +x run_test.sh
+# RUN chmod +x /var/www/html/run_test.sh
 
 RUN apt-get install --yes sqlite3
