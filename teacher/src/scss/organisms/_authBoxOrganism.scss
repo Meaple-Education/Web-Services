@@ -1,0 +1,13 @@
+$authBoxPadding: 25px;
+
+.auth-box-organism {
+    @include flexBox;
+    position: relative;
+    background-color: #fff;
+    padding: $authBoxPadding;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+    width: calc(250px + #{($authBoxPadding * 2)});
+    overflow: hidden;
+}

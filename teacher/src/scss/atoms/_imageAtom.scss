@@ -1,0 +1,15 @@
+.image-atom {
+    @include flexBox;
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+    img {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    &.auth-logo {
+        max-width: 150px;
+        margin-bottom: 20px;
+    }
+}

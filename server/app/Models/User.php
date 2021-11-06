@@ -103,4 +103,8 @@ class User extends Authenticatable
 
         return $identifier;
     }
+
+    public function sendOTPCode()
+    {
+    }
 }
