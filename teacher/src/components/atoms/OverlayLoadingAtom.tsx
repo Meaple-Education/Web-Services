@@ -7,7 +7,7 @@ interface IProps {
 class OverlayLoadingAtom extends React.Component<IProps> {
     render() {
         return <div className={`overlay-loading-atom ${this.props.position ?? 'fixed'}`}>
-            <img src="/images/loading.svg" />
+            <img src="/images/loading.svg" alt="Loading..." />
         </div >
     }
 }

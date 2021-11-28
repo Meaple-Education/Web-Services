@@ -1,5 +1,6 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { AuthEnum } from '../../../enum/auth';
 import { PageEndpoint } from '../../../routes/PageEndPoint';
 import AuthService from '../../../services/AuthService';
 import ButtonAtom from '../../atoms/ButtonAtom';
@@ -15,18 +16,16 @@ interface IProps extends RouteComponentProps {
 }
 
 interface IStates {
-    email: string;
-    otp: string;
+    password: string;
     processing: boolean;
 }
 
-class SigninPage extends React.Component<IProps, IStates> {
+class VerifyPasswordPage extends React.Component<IProps, IStates> {
 
     constructor(props: IProps) {
         super(props);
         this.state = {
-            email: '',
-            otp: '',
+            password: '',
             processing: false,
         }
     }
@@ -39,25 +38,31 @@ class SigninPage extends React.Component<IProps, IStates> {
     }
 
     formSubmit = async () => {
-        const { email, otp, processing } = this.state;
+        const { password, processing } = this.state;
         const authService = new AuthService();
 
         this.setState({
             processing: true,
         });
 
-        const login = await authService.signin(email, otp)
+        const verifyPassword = await authService.verifyPassword(password)
+        console.log('verifyPassword', verifyPassword)
+        if (!verifyPassword.status) {
+            if (verifyPassword.data.logout) {
+                localStorage.removeItem(AuthEnum.Token);
+                localStorage.removeItem(AuthEnum.SessionIdentifier);
+                window.location.assign(PageEndpoint.signin);
+                return;
+            }
 
-        if (!login.status) {
-            alert(login.msg);
-
+            alert(verifyPassword.msg);
             this.setState({
                 processing: false,
             });
             return;
         }
 
-        window.location.assign(PageEndpoint.verifyPassword);
+        window.location.assign(PageEndpoint.schoolList);
     }
 
     render() {
@@ -72,40 +77,25 @@ class SigninPage extends React.Component<IProps, IStates> {
                 >
                     <LabelInputMolecule
                         label={{
-                            title: "Email",
-                            for: "signInEmail"
+                            title: "Password",
+                            for: "signInPassword"
                         }}
                         input={{
-                            id: "signInEmail",
-                            type: "text",
-                            name: "email",
-                            placeholder: "Email",
+                            id: "signInPassword",
+                            type: "password",
+                            name: "password",
+                            placeholder: "Password",
                             initialValue: "",
-                            callback: (val: string) => this.updateInput(val, 'email')
+                            callback: (val: string) => this.updateInput(val, 'password')
                         }}
                     />
 
-                    <LabelInputMolecule
-                        label={{
-                            title: "OTP Code",
-                            for: "signInOTP"
-                        }}
-                        input={{
-                            id: "signInOTP",
-                            type: "text",
-                            name: "otp",
-                            placeholder: "OTP Code",
-                            initialValue: "",
-                            callback: (val: string) => this.updateInput(val, 'otp')
-                        }}
-                    />
-
-                    <ButtonAtom title="LOGIN" type="submit" />
+                    <ButtonAtom title="VERIFY" type="submit" />
                     <SpacerAtom />
                     <div className="text-center flex">Or</div>
                     <SpacerAtom />
                     <ButtonAtom
-                        title="REGISTER"
+                        title="LOG OUT"
                         callback={() => {
                             this.props.history.push(PageEndpoint.signup);
                         }}
@@ -120,4 +110,4 @@ class SigninPage extends React.Component<IProps, IStates> {
     }
 }
 
-export default withRouter(SigninPage);
+export default withRouter(VerifyPasswordPage);

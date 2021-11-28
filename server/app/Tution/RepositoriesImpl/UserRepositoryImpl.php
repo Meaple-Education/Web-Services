@@ -118,6 +118,7 @@ class UserRepositoryImpl implements UserRepository
             $user->email_verified = true;
             $user->activated_at = gmdate("Y-m-d H:i:s");
             $user->save();
+            $user->sendOTPCode();
         } catch (\Exception $e) {
             DB::rollback();
             $res = [

@@ -64,8 +64,6 @@ class SignupPage extends React.Component<IProps, IStates> {
             processing: false,
         });
 
-        console.log('register', register)
-
         if (!register.status) {
             alert(register.msg);
         } else {
@@ -128,7 +126,7 @@ class SignupPage extends React.Component<IProps, IStates> {
 
                 <ButtonAtom title="REGISTER" type="submit" />
                 <SpacerAtom />
-                Or
+                <div className="text-center flex">Or</div>
                 <SpacerAtom />
                 <ButtonAtom
                     title="LOGIN"

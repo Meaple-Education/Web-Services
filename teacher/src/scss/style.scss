@@ -19,3 +19,11 @@ body {
     font-size: 16px;
     font-family: mainFont;
 }
+
+.flex {
+    @include flexBox;
+}
+
+.text-center {
+    text-align: center;
+}

@@ -75,7 +75,9 @@ class VerifyToken
             return response()->json([
                 'status' => false,
                 'code' => 403,
-                'data' => [],
+                'data' => [
+                    'verificationRequired' => true,
+                ],
                 'msg' => 'Verify password first!',
             ], 403);
         }
