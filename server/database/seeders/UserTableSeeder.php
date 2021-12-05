@@ -23,6 +23,16 @@ class UserTableSeeder extends Seeder
                 "updated_at" => "2021-09-14 20:05:58",
                 "created_at" => "2021-09-14 20:05:58",
                 "auth_code" => "XVOMEQ6DEFV3KSUN",
+                "auth_created" => "2021-09-14 20:05:58",
+                "email_verified" => true,
+            ],
+            [
+                "name" => "Sai",
+                "password" => bcrypt('admin123'),
+                "email" => "test@gmail.com",
+                "updated_at" => "2021-09-14 20:05:58",
+                "created_at" => "2021-09-14 20:05:58",
+                "auth_code" => "XVOMEQ6DEFV3KSUM",
                 "auth_created" => "2021-09-14 20:05:58"
             ],
         ];

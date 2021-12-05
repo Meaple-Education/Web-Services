@@ -35,6 +35,7 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 Route::group(['middleware' => ['auth:api', 'v1.teacher.token']], function () {
     Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
         Route::get('profile', 'V1\\Teacher\\UserController@getProfile')->name('profile');
+        // Route::post('logout', 'V1\\Teacher\\UserController@getProfile')->name('profile');
         Route::post('verify/password', 'V1\\Teacher\\UserController@passwordVerify')->name('verifyPassword');
     });
 });

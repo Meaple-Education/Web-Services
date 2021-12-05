@@ -36,8 +36,6 @@ class VerifyToken
                 'status' => false,
                 'code' => 401,
                 'data' => [],
-                'us' => Auth::guard('api')->user()->toArray(),
-                'awef' => Auth::guard('api')->user()->status,
                 'msg' => 'Invalid request!',
             ], 401);
         }
@@ -54,9 +52,10 @@ class VerifyToken
         }
 
         if (
-            (string) $session->ip !== (string) $_SERVER['REMOTE_ADDR'] ||
-            (string) $session->browser !== (string) Agent::browser() ||
-            (string) $session->os !== (string) Agent::platform()
+            !in_array($request->header('DeviceType'), [1, 2]) &&
+            ((string) $session->ip !== (string) $_SERVER['REMOTE_ADDR'] ||
+                (string) $session->browser !== (string) Agent::browser() ||
+                (string) $session->os !== (string) Agent::platform())
         ) {
             $session->reject_ip = (string) $_SERVER['REMOTE_ADDR'];
             $session->reject_browser = (string) Agent::browser();
