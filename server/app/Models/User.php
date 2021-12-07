@@ -5,6 +5,7 @@ namespace App\Models;
 use Str;
 
 use App\Notifications\Teacher\EmailConfirmNotification;
+use App\Notifications\Teacher\SendOTPNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -102,5 +103,10 @@ class User extends Authenticatable
         } while (UserSession::where('identifier', $identifier)->count() !== 0);
 
         return $identifier;
+    }
+
+    public function sendOTPCode()
+    {
+        $this->notify(new SendOTPNotification($this->auth_code));
     }
 }

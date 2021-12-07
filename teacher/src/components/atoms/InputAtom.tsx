@@ -1,11 +1,18 @@
 import React from 'react';
+import { InputAtomPropInterface } from '../../interfaces/components/atoms/InputIAtomInterface';
 
-interface IProps { }
+interface IProps extends InputAtomPropInterface { }
 
-export default class InputAtom extends React.Component<IProps> {
+class InputAtom extends React.Component<IProps> {
+    updateInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.props.callback(e.target.value)
+    }
+
     render() {
         return <>
-            <input />
+            <input id={this.props.id ?? ''} name={this.props.name ?? ''} type={this.props.type ?? 'text'} onChange={this.updateInput} className="input-atom" placeholder={this.props.placeholder ?? ''} />
         </>;
     }
 }
+
+export default InputAtom;

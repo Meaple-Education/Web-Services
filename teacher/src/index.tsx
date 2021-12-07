@@ -4,13 +4,29 @@ import './scss/style.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
+import { applyMiddleware, createStore } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import rootReducer from './redux/reducers';
+import { AuthEnum } from './enum/auth';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
+
+const store = createStore(
+    rootReducer,
+    applyMiddleware(thunk)
+)
+
+axios.defaults.headers['Authorization'] = 'Bearer ' + localStorage.getItem(AuthEnum.Token)
+axios.defaults.headers[AuthEnum.SessionIdentifier] = localStorage.getItem(AuthEnum.SessionIdentifier)
+
 ReactDOM.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
+    <Provider store={store}>
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
+    </Provider>,
     document.getElementById('root')
 );
 

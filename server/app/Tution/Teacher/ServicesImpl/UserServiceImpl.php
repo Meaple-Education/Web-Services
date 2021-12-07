@@ -158,8 +158,4 @@ class UserServiceImpl implements UserService
     public function updateProfile(Request $request)
     {
     }
-
-    public function verifyOTP(string $key, string $code)
-    {
-    }
 }

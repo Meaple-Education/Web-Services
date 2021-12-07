@@ -19,6 +19,4 @@ interface UserService
     public function updateProfileImage(Request $request);
 
     public function updateProfile(Request $request);
-
-    public function verifyOTP(string $key, string $code);
 }

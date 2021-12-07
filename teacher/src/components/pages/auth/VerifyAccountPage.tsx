@@ -3,7 +3,10 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { PageEndpoint } from '../../../routes/PageEndPoint';
 import AuthService from '../../../services/AuthService';
-import NonAuthTemplate from '../../templates/NonAuthTemplate';
+import ImageAtom from '../../atoms/ImageAtom';
+import LinkButtonAtom from '../../atoms/LinkButtonAtom';
+import AuthBoxOrganism from '../../organisms/AuthBoxOrganism';
+import AuthenticateTemplate from '../../templates/AuthenticateTemplate';
 
 interface IProps extends RouteComponentProps<any> { }
 
@@ -58,10 +61,13 @@ class VerifyAccountPage extends React.Component<IProps, IStates> {
     }
 
     verificationSuccessUI() {
-        return <div data-test="verificationSuccessSection">
-            <span data-test="verificationSuccessMessageSection">Validation complete</span><br />
-            <Link to={PageEndpoint.signin}>Login</Link>
-        </div>
+        return <>
+            <p data-test="verificationSuccessMessageSection" className="verification-message">Validation complete</p>
+            <LinkButtonAtom
+                url={PageEndpoint.signin}
+                title="LOGIN"
+            />
+        </>
     }
 
     render() {
@@ -70,19 +76,20 @@ class VerifyAccountPage extends React.Component<IProps, IStates> {
             errorMesg,
             validating,
         } = this.state;
-        return <NonAuthTemplate>
-            <div data-test="verifyAccountPage">
+        return <AuthenticateTemplate>
+            <AuthBoxOrganism>
+                <ImageAtom src="/images/logo.png" figureClass="auth-logo" />
                 {
                     validating &&
-                    "Validating"
+                    <p className="verification-message">Validating</p>
 
                 }
                 {
                     !validating &&
-                    (hasError ? <div data-test="verificationFailedSection">{errorMesg}</div> : this.verificationSuccessUI())
+                    (hasError ? <p className="verification-message">{errorMesg}</p> : this.verificationSuccessUI())
                 }
-            </div>
-        </NonAuthTemplate>;
+            </AuthBoxOrganism>
+        </AuthenticateTemplate>;
     }
 }
 

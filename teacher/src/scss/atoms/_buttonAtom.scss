@@ -1,0 +1,23 @@
+.button-atom {
+    padding: 0 15px;
+    height: 40px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 40px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    background: #e9e9ed;
+    &:hover {
+        background: #d0d0d7;
+    }
+}
+
+a.button-atom {
+    text-align: center;
+    text-decoration: none;
+    color: #000;
+}
