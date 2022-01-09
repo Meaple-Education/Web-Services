@@ -38,4 +38,15 @@ Route::group(['middleware' => ['auth:api', 'v1.teacher.token']], function () {
         // Route::post('logout', 'V1\\Teacher\\UserController@getProfile')->name('profile');
         Route::post('verify/password', 'V1\\Teacher\\UserController@passwordVerify')->name('verifyPassword');
     });
+    Route::group(['prefix' => 'school', 'as' => 'school.'], function () {
+        Route::get('/', 'V1\\Teacher\\SchoolController@getSchools')->name('list');
+        Route::post('/', 'V1\\Teacher\\SchoolController@createSchool')->name('add');
+
+        Route::group(['prefix' => '{schoolID}', 'middleware' => ['v1.teacher.school.validate']], function () {
+            Route::get('/', 'V1\\Teacher\\SchoolController@getSchool')->name('info');
+            Route::post('/', 'V1\\Teacher\\SchoolController@updateSchool')->name('update');
+            Route::post('/status', 'V1\\Teacher\\SchoolController@updateSchoolStatus')->name('update.status');
+            Route::delete('/', 'V1\\Teacher\\SchoolController@deleteSchool')->name('delete');
+        });
+    });
 });

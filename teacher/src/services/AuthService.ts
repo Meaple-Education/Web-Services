@@ -115,6 +115,11 @@ export default class AuthService extends BaseService {
                 response.data.isLoggin = true;
                 response.data.verifyPassword = true;
             }
+
+            if (err.response.status === 401) {
+                localStorage.removeItem(AuthEnum.Token);
+                localStorage.removeItem(AuthEnum.SessionIdentifier);
+            }
         });
 
         return response;

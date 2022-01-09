@@ -25,6 +25,11 @@ export default function MemberHoc(ComponentToProtect: any) {
         }
 
         componentDidMount() {
+            if (!this.props.authState.isLoggin) {
+                this.props.history.push(PageEndpoint.home);
+                return;
+            }
+
             if (this.props.authState.isLoggin && [PageEndpoint.verifyAccount, PageEndpoint.signin, PageEndpoint.signup].includes(this.props.location.pathname)) {
                 this.props.history.push(PageEndpoint.verifyPassword);
             }

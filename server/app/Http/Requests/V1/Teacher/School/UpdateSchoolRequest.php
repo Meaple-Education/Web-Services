@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\V1\Teacher\Auth;
+namespace App\Http\Requests\V1\Teacher\School;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -8,7 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 use Auth;
 
-class VerifyPasswordRequest extends FormRequest
+class UpdateSchoolRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,10 @@ class VerifyPasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'address' => 'required',
+            'phone_numbers' => 'required',
         ];
     }
 

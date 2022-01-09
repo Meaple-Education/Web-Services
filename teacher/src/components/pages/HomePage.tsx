@@ -1,17 +1,37 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import AuthInterface from '../../interfaces/AuthInterface';
+import { StoreState } from '../../redux/reducers';
 import { PageEndpoint } from '../../routes/PageEndPoint';
 
-class HomePage extends React.Component {
+interface IProps extends RouteComponentProps {
+    authState: AuthInterface;
+}
+
+class HomePage extends React.Component<IProps> {
     render() {
         return <div data-test="homePage">
             HomePage TO BE IMPLEMENTED
             <br />
             <ul>
-                <li><Link to={PageEndpoint.signin}>Login</Link></li>
+                <li>
+                    {
+                        !this.props.authState.isLoggin &&
+                        <Link to={PageEndpoint.signin}>Login</Link>
+                    }
+                    {
+                        this.props.authState.isLoggin &&
+                        <Link to={PageEndpoint.schoolList}>Dashboard</Link>
+                    }
+                </li>
             </ul>
         </div>;
     }
 }
 
-export default HomePage;
+export default connect(({ authState }: StoreState) => {
+    return {
+        authState,
+    };
+}, {})(HomePage);

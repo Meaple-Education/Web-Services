@@ -24,7 +24,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->bind('App\Http\Controllers\V1\Teacher\UserController', function () {
-            return new \App\Http\Controllers\V1\Teacher\UserController(new \App\Tution\Teacher\ServicesImpl\UserServiceImpl(new \App\Tution\RepositoriesImpl\UserRepositoryImpl));
+            return new \App\Http\Controllers\V1\Teacher\UserController(
+                new \App\Tution\Teacher\ServicesImpl\UserServiceImpl(
+                    new \App\Tution\RepositoriesImpl\UserRepositoryImpl
+                )
+            );
+        });
+        $this->app->bind('App\Http\Controllers\V1\Teacher\SchoolController', function () {
+            return new \App\Http\Controllers\V1\Teacher\SchoolController(
+                new \App\Tution\Teacher\ServicesImpl\SchoolServiceImpl(
+                    new \App\Tution\RepositoriesImpl\SchoolRepositoryImpl
+                )
+            );
         });
     }
 }

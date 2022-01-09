@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Teacher\Repositories;
+namespace Tests\Unit\Repositories;
 
 use App\Tution\RepositoriesImpl\UserRepositoryImpl;
 use Tests\TestCase;
