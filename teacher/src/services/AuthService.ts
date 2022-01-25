@@ -30,7 +30,7 @@ export default class AuthService extends BaseService {
                 response.status = false;
                 response.msg = err.response.data.msg || 'Registration failed!';
             }
-        })
+        });
 
         return response;
     }
@@ -57,7 +57,7 @@ export default class AuthService extends BaseService {
                 response.status = false;
                 response.msg = err.response.data.msg || 'Login failed!';
             }
-        })
+        });
 
         return response;
     }
@@ -86,7 +86,6 @@ export default class AuthService extends BaseService {
                 response.status = false;
                 response.msg = err.response.data.msg || 'Failed to verify an account!';
             }
-
         });
 
         return response;
