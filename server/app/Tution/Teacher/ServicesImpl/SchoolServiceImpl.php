@@ -31,7 +31,7 @@ class SchoolServiceImpl implements SchoolService
             'data' => [
                 'list' => $list,
             ],
-            'msg' => 'Success',
+            'msg' => 'Success.',
         ];
     }
 
@@ -44,7 +44,7 @@ class SchoolServiceImpl implements SchoolService
             'data' => [
                 'info' => $this->formatSchool($school),
             ],
-            'msg' => 'Success'
+            'msg' => 'Success.'
         ];
     }
 

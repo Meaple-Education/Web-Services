@@ -42,7 +42,7 @@ class SchoolControllerTest extends TestCase
                     ],
                 ],
             ],
-            'msg' => 'Success'
+            'msg' => 'Success.'
         ]);
     }
 
@@ -71,7 +71,7 @@ class SchoolControllerTest extends TestCase
                     'updated_at' => '',
                 ],
             ],
-            'msg' => 'Success'
+            'msg' => 'Success.'
         ]);
     }
 
@@ -233,7 +233,7 @@ class SchoolControllerTest extends TestCase
                     'status' => true,
                     'code' => 200,
                     'data' => [],
-                    'msg' => 'Success',
+                    'msg' => 'Success.',
                 ],
             ],
             [
@@ -282,7 +282,7 @@ class SchoolControllerTest extends TestCase
                     'status' => true,
                     'code' => 200,
                     'data' => [],
-                    'msg' => 'Success',
+                    'msg' => 'Success.',
                 ],
             ],
             [

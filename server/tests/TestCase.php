@@ -99,6 +99,17 @@ abstract class TestCase extends BaseTestCase
         ]);
     }
 
+    public function prepSchoolClassTest()
+    {
+        $this->prepSchoolTest();
+
+        \App\Models\SchoolClass::insert([
+            'name' => 'Class One',
+            'description' => 'test class',
+            'school_id' => 1,
+        ]);
+    }
+
     public function setupLoginHeader()
     {
         $token = \App\Models\User::find(1)->createToken('phpunit')->accessToken;

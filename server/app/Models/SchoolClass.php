@@ -14,6 +14,7 @@ class SchoolClass extends Model
     protected $fillable = [
         'name',
         'description',
-        'school_id'
+        'school_id',
+        'status',
     ];
 }

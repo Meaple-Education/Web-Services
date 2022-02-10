@@ -54,7 +54,7 @@ class SchoolRepositoryTest extends TestCase
 
         $createSchool = $this->repo->create($input);
 
-        $this->assertEquals(count(School::where('user_id', 1)->get()), 1);
+        $this->assertEquals(School::where('user_id', 1)->count(), 1);
 
         $createSchool['data'] = [];
         $this->assertEquals([
@@ -78,7 +78,7 @@ class SchoolRepositoryTest extends TestCase
 
         $createSchool = $this->repo->create($input);
 
-        $this->assertEquals(count(School::where('user_id', 1)->get()), 0);
+        $this->assertEquals(School::where('user_id', 1)->count(), 0);
 
         $this->assertEquals([
             'status' => false,
@@ -106,7 +106,7 @@ class SchoolRepositoryTest extends TestCase
             'status' => true,
             'code' => 200,
             'data' => [],
-            'msg' => 'Success',
+            'msg' => 'Success.',
         ], $updateSchool);
     }
 
@@ -142,7 +142,7 @@ class SchoolRepositoryTest extends TestCase
             'status' => true,
             'code' => 200,
             'data' => [],
-            'msg' => 'Success',
+            'msg' => 'Success.',
         ], $updateSchoolStatus);
     }
 

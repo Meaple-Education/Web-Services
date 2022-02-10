@@ -20,4 +20,18 @@ class School extends Model
         'phone_numbers',
         'user_id',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::created(function ($school) {
+            SchoolTeacher::create([
+                'school_id' => $school->id,
+                'user_id' => $school->user_id,
+                'status' => 1,
+                'role' => 1,
+                'lock' => 1,
+            ]);
+        });
+    }
 }

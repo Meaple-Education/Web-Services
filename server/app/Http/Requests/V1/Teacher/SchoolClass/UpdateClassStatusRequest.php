@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Requests\V1\Teacher\Auth;
+namespace App\Http\Requests\V1\Teacher\SchoolClass;
 
 use App\Http\Requests\BaseRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
 
-use Auth;
-
-class VerifyPasswordRequest extends BaseRequest
+class UpdateClassStatusRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +27,7 @@ class VerifyPasswordRequest extends BaseRequest
     public function rules()
     {
         return [
-            'password' => 'required',
+            'status' => 'required|in:0,1',
         ];
     }
 

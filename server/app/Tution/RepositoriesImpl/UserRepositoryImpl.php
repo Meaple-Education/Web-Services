@@ -74,7 +74,7 @@ class UserRepositoryImpl implements UserRepository
             'status' => true,
             'code' => 200,
             'data' => [],
-            'msg' => 'Success',
+            'msg' => 'Success.',
         ];
 
         DB::beginTransaction();
@@ -193,7 +193,7 @@ class UserRepositoryImpl implements UserRepository
             'data' => [
                 'isExpire' => false,
             ],
-            'msg' => 'Success',
+            'msg' => 'Success.',
         ];
 
         DB::beginTransaction();
@@ -238,7 +238,7 @@ class UserRepositoryImpl implements UserRepository
             'status' => true,
             'code' => 200,
             'data' => [],
-            'msg' => 'Success',
+            'msg' => 'Success.',
         ];
 
         DB::beginTransaction();

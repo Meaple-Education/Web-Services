@@ -4,41 +4,40 @@ namespace App\Tution\RepositoriesImpl;
 
 use DB;
 
-use App\Models\School;
-use App\Tution\Repositories\SchoolRepository;
+use App\Models\SchoolClass;
+use App\Tution\Repositories\SchoolClassRepository;
 
-class SchoolRepositoryImpl implements SchoolRepository
+class SchoolClassRepositoryImpl implements SchoolClassRepository
 {
-    function getOne($id)
+
+    public function get($schoolID)
     {
-        return School::find($id);
+        return SchoolClass::where('school_id', $schoolID)
+            ->get();
     }
 
-    function getByOwner($ownerID, $pagination = 10)
+    public function getOne($id)
     {
-        return School::where('user_id', $ownerID)
-            ->paginate($pagination);
+        return SchoolClass::find($id);
     }
 
-    function get($pagination = 10)
+    public function create($input)
     {
-        return School::paginate($pagination);
-    }
-
-    function create($input)
-    {
-        $school = null;
+        $res = [
+            'status' => true,
+            'code' => 201,
+            'data' => [],
+            'msg' => 'Success.',
+        ];
 
         DB::beginTransaction();
 
         try {
-            $school = School::create([
+            $res['data']['info'] = SchoolClass::create([
                 'name' => $input['name'],
-                // 'logo' => $input['logo'],
                 'description' => $input['description'],
-                'address' => $input['address'],
-                'phone_numbers' => $input['phone_numbers'],
-                'user_id' => $input['user_id'],
+                'school_id' => $input['school_id'],
+                'status' => true,
             ]);
         } catch (\Exception $e) {
             DB::rollback();
@@ -46,55 +45,7 @@ class SchoolRepositoryImpl implements SchoolRepository
                 'status' => false,
                 'code' => 422,
                 'data' => [],
-                'msg' => 'Failed to create school!',
-            ];
-
-            if (config('app.debug')) {
-                // @codeCoverageIgnoreStart
-                $res['error']['msg'] = $e->getMessage();
-                $res['error']['stack'] = $e->getTrace();
-                // @codeCoverageIgnoreEnd
-            }
-
-            return $res;
-        }
-
-        DB::commit();
-
-        return [
-            'status' => true,
-            'code' => 201,
-            'data' => $school,
-            'msg' => 'Success.',
-        ];
-    }
-
-    function update($id, $input)
-    {
-        $res = [
-            'status' => true,
-            'code' => 200,
-            'data' => [],
-            'msg' => 'Success.',
-        ];
-
-        DB::beginTransaction();
-
-        try {
-            $school = $this->getOne($id);
-            $school->name = $input['name'];
-            // $school->logo = $input['logo'];
-            $school->description = $input['description'];
-            $school->address = $input['address'];
-            $school->phone_numbers = $input['phone_numbers'];
-            $school->save();
-        } catch (\Exception $e) {
-            DB::rollback();
-            $res = [
-                'status' => false,
-                'code' => 422,
-                'data' => [],
-                'msg' => 'Failed to update school info!',
+                'msg' => 'Failed to create class!',
             ];
 
             if (config('app.debug')) {
@@ -112,7 +63,7 @@ class SchoolRepositoryImpl implements SchoolRepository
         return $res;
     }
 
-    function updateStatus($id, $status)
+    public function update($id, $input)
     {
         $res = [
             'status' => true,
@@ -124,16 +75,17 @@ class SchoolRepositoryImpl implements SchoolRepository
         DB::beginTransaction();
 
         try {
-            $school = $this->getOne($id);
-            $school->status = (int) $status === 1;
-            $school->save();
+            $class = $this->getOne($id);
+            $class->name = $input['name'];
+            $class->description = $input['description'];
+            $class->update();
         } catch (\Exception $e) {
             DB::rollback();
             $res = [
                 'status' => false,
                 'code' => 422,
                 'data' => [],
-                'msg' => 'Failed to update school status!',
+                'msg' => 'Failed to update class!',
             ];
 
             if (config('app.debug')) {
@@ -151,11 +103,46 @@ class SchoolRepositoryImpl implements SchoolRepository
         return $res;
     }
 
-    function softDelete($id)
+    public function updateStatus($id, $input)
     {
+        $res = [
+            'status' => true,
+            'code' => 200,
+            'data' => [],
+            'msg' => 'Success.',
+        ];
+
+        DB::beginTransaction();
+
+        try {
+            $class = $this->getOne($id);
+            $class->status = $input['status'];
+            $class->update();
+        } catch (\Exception $e) {
+            DB::rollback();
+            $res = [
+                'status' => false,
+                'code' => 422,
+                'data' => [],
+                'msg' => 'Failed to update class status!',
+            ];
+
+            if (config('app.debug')) {
+                // @codeCoverageIgnoreStart
+                $res['error']['msg'] = $e->getMessage();
+                $res['error']['stack'] = $e->getTrace();
+                // @codeCoverageIgnoreEnd
+            }
+
+            return $res;
+        }
+
+        DB::commit();
+
+        return $res;
     }
 
-    function delete($id)
+    public function delete($id, $input)
     {
     }
 }

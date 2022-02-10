@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests\V1\Teacher\School;
 
+use App\Http\Requests\BaseRequest;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 use Auth;
 
-class UpdateSchoolStatusRequest extends FormRequest
+class UpdateSchoolStatusRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.

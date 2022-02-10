@@ -7,13 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class SchoolTeacher extends Model
 {
+    /*
+        role
+        - 1 owner
+        - 2 teacher
+    */
     use HasFactory;
 
-    protected $table = 'school_student';
+    protected $table = 'school_teacher';
 
     protected $fillable = [
         'school_id',
         'user_id',
         'status',
+        'role',
+        'lock',
     ];
 }

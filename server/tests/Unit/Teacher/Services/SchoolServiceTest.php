@@ -5,13 +5,11 @@ namespace Tests\Unit\Teacher\Services;
 use App\Models\School;
 use App\Tution\RepositoriesImpl\SchoolRepositoryImpl;
 use App\Tution\Teacher\ServicesImpl\SchoolServiceImpl;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 
 class SchoolServiceTest extends TestCase
 {
-    use RefreshDatabase;
     private $service;
     private $request;
 
@@ -28,7 +26,6 @@ class SchoolServiceTest extends TestCase
 
     public function test_get_schools()
     {
-
         $schools = $this->service->getSchools($this->request);
 
         $this->assertEquals($schools, [
@@ -51,7 +48,7 @@ class SchoolServiceTest extends TestCase
                     ],
                 ]
             ],
-            'msg' => 'Success',
+            'msg' => 'Success.',
         ]);
     }
 
@@ -80,7 +77,7 @@ class SchoolServiceTest extends TestCase
                 ],
 
             ],
-            'msg' => 'Success',
+            'msg' => 'Success.',
         ]);
     }
 
@@ -149,7 +146,7 @@ class SchoolServiceTest extends TestCase
             'status' => true,
             'code' => 200,
             'data' => [],
-            'msg' => 'Success'
+            'msg' => 'Success.'
         ]);
         $data = School::find(1);
 
@@ -200,7 +197,7 @@ class SchoolServiceTest extends TestCase
             'status' => true,
             'code' => 200,
             'data' => [],
-            'msg' => 'Success'
+            'msg' => 'Success.'
         ]);
 
         $data = School::find(1);

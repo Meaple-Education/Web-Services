@@ -330,7 +330,7 @@ class UserRepositoryTest extends TestCase
             'data' => [
                 'isExpire' => false,
             ],
-            'msg' => 'Success',
+            'msg' => 'Success.',
         ], $wrongAttempted);
     }
 
@@ -367,7 +367,7 @@ class UserRepositoryTest extends TestCase
             'data' => [
                 'isExpire' => true,
             ],
-            'msg' => 'Success',
+            'msg' => 'Success.',
         ], $wrongAttempted);
     }
 
@@ -417,7 +417,7 @@ class UserRepositoryTest extends TestCase
             'status' => true,
             'code' => 200,
             'data' => [],
-            'msg' => 'Success',
+            'msg' => 'Success.',
         ], $updateStatus);
         $this->assertEquals(\App\Models\User::find(1)->status, 0);
     }
@@ -472,7 +472,7 @@ class UserRepositoryTest extends TestCase
             'status' => true,
             'code' => 200,
             'data' => [],
-            'msg' => 'Success',
+            'msg' => 'Success.',
         ], $updateStatus);
         $user = \App\Models\User::find(1);
         $this->assertEquals([

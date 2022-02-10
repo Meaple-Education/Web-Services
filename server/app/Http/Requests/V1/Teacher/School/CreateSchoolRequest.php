@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests\V1\Teacher\School;
 
+use App\Http\Requests\BaseRequest;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreateSchoolRequest extends FormRequest
+class CreateSchoolRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -30,10 +30,19 @@ class AppServiceProvider extends ServiceProvider
                 )
             );
         });
+
         $this->app->bind('App\Http\Controllers\V1\Teacher\SchoolController', function () {
             return new \App\Http\Controllers\V1\Teacher\SchoolController(
                 new \App\Tution\Teacher\ServicesImpl\SchoolServiceImpl(
                     new \App\Tution\RepositoriesImpl\SchoolRepositoryImpl
+                )
+            );
+        });
+
+        $this->app->bind('App\Http\Controllers\V1\Teacher\SchoolClassController', function () {
+            return new \App\Http\Controllers\V1\Teacher\SchoolClassController(
+                new \App\Tution\Teacher\ServicesImpl\SchoolClassServiceImpl(
+                    new \App\Tution\RepositoriesImpl\SchoolClassRepositoryImpl
                 )
             );
         });
