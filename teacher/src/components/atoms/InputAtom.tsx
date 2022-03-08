@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputAtomPropInterface } from '../../interfaces/components/atoms/InputIAtomInterface';
+import { InputAtomPropInterface } from '../../interfaces/components/atoms/InputAtomInterface';
 
 interface IProps extends InputAtomPropInterface { }
 

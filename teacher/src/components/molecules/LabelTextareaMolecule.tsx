@@ -1,21 +1,21 @@
 import React from 'react';
-import { InputAtomPropInterface } from '../../interfaces/components/atoms/InputAtomInterface';
 import { LabelAtomPropsInterface } from '../../interfaces/components/atoms/LabelAtomInterface';
-import InputAtom from '../atoms/InputAtom';
+import { TextareaAtomPropInterface } from '../../interfaces/components/atoms/TextareaAtomInterface';
 import LabelAtom from '../atoms/LabelAtom';
 import SpacerAtom from '../atoms/SpacerAtom';
+import TextareaAtom from '../atoms/TextareaAtom';
 
 interface IProps {
     label: LabelAtomPropsInterface;
-    input: InputAtomPropInterface;
+    input: TextareaAtomPropInterface;
 }
 
-export default class LabelInputMolecule extends React.Component<IProps> {
+export default class LabelTextAreaMolecule extends React.Component<IProps> {
     render() {
         return <div className="label-input-molecules">
             <LabelAtom {...this.props.label} />
             <SpacerAtom height={10} />
-            <InputAtom {...this.props.input} />
+            <TextareaAtom {...this.props.input} />
         </div>;
     }
 }

@@ -105,7 +105,6 @@ export default class AuthService extends BaseService {
         await this.getMethod(
             ProfileURL
         ).then((res) => {
-            console.log("profile resulut", res);
             response.data.isLoggin = true;
         }).catch((err) => {
             response.status = false;

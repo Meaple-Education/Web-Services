@@ -1,4 +1,4 @@
-import { SchoolInterface } from "../../interfaces/school/SchoolInterface";
+import { SchoolItemInterface } from "../../interfaces/school/SchoolInterface";
 import SchoolService from "../../services/SchoolService"
 import { ActionTypes } from "./types";
 
@@ -6,7 +6,7 @@ export interface FetchSchoolAction {
     type: ActionTypes.fetchSchoolAction;
     payload: {
         loading: boolean;
-        list: SchoolInterface[];
+        list: SchoolItemInterface[];
     }
 }
 
@@ -31,15 +31,15 @@ export const fetchSchool: FetchSchool = () => async (dispatch: any) => {
 
 export interface AddSchoolAction {
     type: ActionTypes.addSchoolAction
-    payload: SchoolInterface
+    payload: SchoolItemInterface
 }
 
 export interface AddSchool {
-    (payload: SchoolInterface): AddSchoolAction
+    (payload: SchoolItemInterface): AddSchoolAction
 }
 
 
-export const addSchool: AddSchool = (payload: SchoolInterface): AddSchoolAction => {
+export const addSchool: AddSchool = (payload: SchoolItemInterface): AddSchoolAction => {
     return {
         type: ActionTypes.addSchoolAction,
         payload,

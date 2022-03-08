@@ -4,16 +4,13 @@ import SigninPage from '../components/pages/auth/SigninPage';
 import SignupPage from '../components/pages/auth/SignupPage';
 import VerifyAccountPage from '../components/pages/auth/VerifyAccountPage';
 import VerifyPasswordPage from '../components/pages/auth/VerifyPasswordPage';
-import DashboardPage from '../components/pages/DashboardPage';
 import HomePage from '../components/pages/HomePage';
 import ProfilePage from '../components/pages/ProfilePage';
 import SchoolListPage from '../components/pages/SchoolListPage';
-import StudentCreatePage from '../components/pages/student/StudentCreatePage';
-import StudentDetailPage from '../components/pages/student/StudentDetailPage';
-import StudentListPage from '../components/pages/student/StudentListPage';
 import AuthHoc from '../hoc/AuthHoc';
 import GuestHoc from '../hoc/GuestHoc';
 import MemberHoc from '../hoc/MemberHoc';
+import ClassRoute from './ClassRoutes';
 import { PageEndpoint } from './PageEndPoint';
 
 
@@ -46,22 +43,6 @@ const routes = [
         path: PageEndpoint.schoolList,
         component: AuthHoc(MemberHoc(SchoolListPage)),
     },
-    {
-        path: PageEndpoint.dashboard,
-        component: AuthHoc(MemberHoc(DashboardPage)),
-    },
-    {
-        path: PageEndpoint.studentList,
-        component: AuthHoc(MemberHoc(StudentListPage)),
-    },
-    {
-        path: PageEndpoint.studentCreate,
-        component: AuthHoc(MemberHoc(StudentCreatePage)),
-    },
-    {
-        path: PageEndpoint.studentDetail,
-        component: AuthHoc(MemberHoc(StudentDetailPage)),
-    },
 ];
 
 class Routes extends React.Component {
@@ -78,6 +59,7 @@ class Routes extends React.Component {
                         />
                     })
                 }
+                <Route path={PageEndpoint.dashboard} component={ClassRoute} />
             </Switch>
         </BrowserRouter>
     }

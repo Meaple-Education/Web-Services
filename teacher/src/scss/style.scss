@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "./variables";
 @import "./mixins";
 @import "./templates/style";
 @import "./pages/style";
@@ -21,10 +23,46 @@ body {
     font-family: mainFont;
 }
 
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
 .flex {
     @include flexBox;
 }
 
 .text-center {
     text-align: center;
+}
+
+.st-scrollable {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.st-container {
+    padding: 30px;
+}
+
+a,
+button {
+    cursor: pointer;
+}
+
+a[class^="action-"],
+button[class^="action-"] {
+    border: none;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    &:active,
+    &:hover,
+    &:focus {
+        outline: none;
+        color: #fff;
+        text-decoration: none;
+    }
 }

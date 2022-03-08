@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { StoreState } from '../../redux/reducers';
 import { SchoolReducerInterface } from '../../interfaces/school/SchoolInterface';
 import { AddSchool, addSchool } from '../../redux/actions';
+import SchoolListItemAtom from '../atoms/SchoolListItemAtom';
 
 interface IProps {
     schoolState: SchoolReducerInterface,
@@ -86,9 +87,7 @@ class SchoolListPage extends React.Component<IProps, IStates> {
         return <div data-test="dashboardPage">
             <SchoolListLayout>
                 {
-                    this.props.schoolState.list.map(s => <div className="school-card">
-                        {s.name}&nbsp;&nbsp;&nbsp;
-                    </div>)
+                    this.props.schoolState.list.map(s => <SchoolListItemAtom school={s} />)
                 }
                 <div onClick={this.toggleCreateForm}>Add new school</div>
             </SchoolListLayout>

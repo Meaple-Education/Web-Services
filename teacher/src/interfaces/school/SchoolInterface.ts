@@ -1,4 +1,4 @@
-export interface SchoolInterface {
+export interface SchoolItemInterface {
     id: number;
     name: string;
     logo: string;
@@ -10,6 +10,6 @@ export interface SchoolInterface {
 }
 
 export interface SchoolReducerInterface {
-    list: SchoolInterface[],
+    list: SchoolItemInterface[],
     loading: boolean;
 }

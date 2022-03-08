@@ -3,7 +3,7 @@ import ContainerAtom from '../../atoms/ContainerAtom';
 import ScrollableAtom from '../../atoms/ScrollableAtom';
 import StandardLayout from '../../layouts/StandardLayout';
 
-class StudentListPage extends React.Component {
+class StaffListPage extends React.Component {
     render() {
         return <StandardLayout>
             <StandardLayout.Sidebar>
@@ -12,12 +12,12 @@ class StudentListPage extends React.Component {
                 </ul>
             </StandardLayout.Sidebar>
             <StandardLayout.Header>
-                Student List
+                Stuff List
             </StandardLayout.Header>
             <StandardLayout.Content>
                 <ScrollableAtom>
                     <ContainerAtom>
-                        <div data-test="studentListPage">StudentListPage TO BE IMPLEMENTED</div>
+                        <div data-test="StuffListPage">StuffListPage TO BE IMPLEMENTED</div>
                     </ContainerAtom>
                 </ScrollableAtom>
             </StandardLayout.Content>
@@ -25,4 +25,4 @@ class StudentListPage extends React.Component {
     }
 }
 
-export default StudentListPage;
+export default StaffListPage;
