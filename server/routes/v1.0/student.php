@@ -20,6 +20,8 @@ Route::get('/', function (Request $request) {
     ]);
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+    Route::post('register', 'V1\\Student\\UserController@register')->name('register');
+    Route::post('login', 'V1\\Student\\UserController@login')->name('login');
+    Route::post('verify/account', 'V1\\Student\\UserController@verifyAccount')->name('verifyAccount');
 });
