@@ -88,10 +88,7 @@ class ClassRoute extends React.Component {
         return (
             <Switch>
                 {
-                    routes.map((r) => {
-                        r.component = AuthHoc(MemberHoc(SchoolHoc(r.component)));
-                        return ProcessRoute(r);
-                    })
+                    routes.map((r) => ProcessRoute(r))
                 }
             </Switch>
         );

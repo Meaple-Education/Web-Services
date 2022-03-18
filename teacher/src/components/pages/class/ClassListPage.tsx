@@ -29,6 +29,7 @@ class ClassListPage extends React.Component<IProps, IStates> {
     }
 
     componentDidMount() {
+        console.log("ASD");
         this.loadClass();
     }
 
@@ -68,28 +69,32 @@ class ClassListPage extends React.Component<IProps, IStates> {
                                 </Link>
                             </div>
                             <table>
-                                <tr>
-                                    <th>Class ID</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Edit</th>
-                                </tr>
-                                {
-                                    classes.map(c => {
-                                        return <tr>
-                                            <td>{c.id}</td>
-                                            <td>{c.name}</td>
-                                            <td>{c.description}</td>
-                                            <td>
-                                                <Link to={BuildPath(
-                                                    PageEndpoint.classDetail, {
-                                                    schoolID: this.props.classState.schoolID,
-                                                    classID: c.id,
-                                                })}>Edit</Link>
-                                            </td>
-                                        </tr>;
-                                    })
-                                }
+                                <thead>
+                                    <tr>
+                                        <th>Class ID</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        classes.map((c, i) => {
+                                            return <tr key={i}>
+                                                <td>{c.id}</td>
+                                                <td>{c.name}</td>
+                                                <td>{c.description}</td>
+                                                <td>
+                                                    <Link to={BuildPath(
+                                                        PageEndpoint.classDetail, {
+                                                        schoolID: this.props.classState.schoolID,
+                                                        classID: c.id,
+                                                    })}>Edit</Link>
+                                                </td>
+                                            </tr>;
+                                        })
+                                    }
+                                </tbody>
                             </table>
                         </div>
                     </ContainerAtom>

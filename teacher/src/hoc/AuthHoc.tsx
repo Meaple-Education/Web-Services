@@ -29,6 +29,7 @@ export default function AuthHoc(ComponentToProtect: any) {
         }
 
         componentDidMount() {
+            console.log("auth hoc got called");
             this.validateAuth();
         }
 

@@ -10,7 +10,15 @@ class TextareaAtom extends React.Component<IProps> {
 
     render() {
         return <>
-            <textarea id={this.props.id ?? ''} name={this.props.name ?? ''} onChange={this.updateInput} className="textarea-atom" placeholder={this.props.placeholder ?? ''}></textarea>
+            <textarea
+                id={this.props.id ?? ''}
+                name={this.props.name ?? ''}
+                onChange={this.updateInput}
+                className="textarea-atom"
+                placeholder={this.props.placeholder ?? ''}
+                value={this.props.initialValue}
+                disabled={this.props.disabled ?? false}
+            ></textarea>
         </>;
     }
 }

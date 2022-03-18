@@ -4,5 +4,6 @@ export interface InputAtomPropInterface {
     placeholder?: string;
     id?: string;
     initialValue: string;
+    disabled?: boolean;
     callback: (value: string) => void;
 }

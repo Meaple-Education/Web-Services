@@ -10,6 +10,7 @@ import SchoolListPage from '../components/pages/SchoolListPage';
 import AuthHoc from '../hoc/AuthHoc';
 import GuestHoc from '../hoc/GuestHoc';
 import MemberHoc from '../hoc/MemberHoc';
+import SchoolHoc from '../hoc/SchoolHoc';
 import ClassRoute from './ClassRoutes';
 import { PageEndpoint } from './PageEndPoint';
 
@@ -59,7 +60,7 @@ class Routes extends React.Component {
                         />
                     })
                 }
-                <Route path={PageEndpoint.dashboard} component={ClassRoute} />
+                <Route path={PageEndpoint.dashboard} component={AuthHoc(MemberHoc(SchoolHoc(ClassRoute)))} />
             </Switch>
         </BrowserRouter>
     }
