@@ -84,4 +84,40 @@ abstract class TestCase extends BaseTestCase
             'last_login' => '2021-09-14 20:05:58',
         ]);
     }
+
+    public function prepSchoolTest()
+    {
+        $this->prepLoginTest();
+
+        \App\Models\School::insert([
+            'name' => 'Test School 1',
+            'status' => 1,
+            'description' => 'Test School desc 1',
+            'address' => 'address 1',
+            'phone_numbers' => json_encode(['09123456789']),
+            'user_id' => 1,
+        ]);
+    }
+
+    public function prepSchoolClassTest()
+    {
+        $this->prepSchoolTest();
+
+        \App\Models\SchoolClass::insert([
+            'name' => 'Class One',
+            'description' => 'test class',
+            'school_id' => 1,
+        ]);
+    }
+
+    public function setupLoginHeader()
+    {
+        $token = \App\Models\User::find(1)->createToken('phpunit')->accessToken;
+        $sesionIdentifier = \App\Models\UserSession::find(1)->identifier;
+
+        $this->header = array_merge([
+            'Authorization' => 'Bearer ' . $token,
+            'sessionIdentifier' => $sesionIdentifier,
+        ], $this->header);
+    }
 }

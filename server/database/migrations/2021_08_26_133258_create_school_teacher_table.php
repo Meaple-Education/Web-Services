@@ -18,6 +18,7 @@ class CreateSchoolTeacherTable extends Migration
             $table->unsignedBigInteger('school_id')->nullable()->index();
             $table->unsignedBigInteger('user_id')->nullable()->index();
             $table->unsignedInteger('status')->default(1);
+            $table->unsignedInteger('role')->default(1);
             $table->unsignedInteger('lock')->default(0);
             $table->timestamps();
 

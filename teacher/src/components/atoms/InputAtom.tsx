@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputAtomPropInterface } from '../../interfaces/components/atoms/InputIAtomInterface';
+import { InputAtomPropInterface } from '../../interfaces/components/atoms/InputAtomInterface';
 
 interface IProps extends InputAtomPropInterface { }
 
@@ -10,7 +10,16 @@ class InputAtom extends React.Component<IProps> {
 
     render() {
         return <>
-            <input id={this.props.id ?? ''} name={this.props.name ?? ''} type={this.props.type ?? 'text'} onChange={this.updateInput} className="input-atom" placeholder={this.props.placeholder ?? ''} />
+            <input
+                id={this.props.id ?? ''}
+                name={this.props.name ?? ''}
+                type={this.props.type ?? 'text'}
+                onChange={this.updateInput}
+                className="input-atom"
+                placeholder={this.props.placeholder ?? ''}
+                value={this.props.initialValue}
+                disabled={this.props.disabled ?? false}
+            />
         </>;
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputAtomPropInterface } from '../../interfaces/components/atoms/InputIAtomInterface';
+import { InputAtomPropInterface } from '../../interfaces/components/atoms/InputAtomInterface';
 import { LabelAtomPropsInterface } from '../../interfaces/components/atoms/LabelAtomInterface';
 import InputAtom from '../atoms/InputAtom';
 import LabelAtom from '../atoms/LabelAtom';

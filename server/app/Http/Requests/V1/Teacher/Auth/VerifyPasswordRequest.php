@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests\V1\Teacher\Auth;
 
+use App\Http\Requests\BaseRequest;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class VerifyPasswordRequest extends FormRequest
+use Auth;
+
+class VerifyPasswordRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +17,7 @@ class VerifyPasswordRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth::guard('api')->check();
     }
 
     /**

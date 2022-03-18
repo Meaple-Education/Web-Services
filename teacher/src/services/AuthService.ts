@@ -30,7 +30,7 @@ export default class AuthService extends BaseService {
                 response.status = false;
                 response.msg = err.response.data.msg || 'Registration failed!';
             }
-        })
+        });
 
         return response;
     }
@@ -57,7 +57,7 @@ export default class AuthService extends BaseService {
                 response.status = false;
                 response.msg = err.response.data.msg || 'Login failed!';
             }
-        })
+        });
 
         return response;
     }
@@ -86,7 +86,6 @@ export default class AuthService extends BaseService {
                 response.status = false;
                 response.msg = err.response.data.msg || 'Failed to verify an account!';
             }
-
         });
 
         return response;
@@ -106,7 +105,6 @@ export default class AuthService extends BaseService {
         await this.getMethod(
             ProfileURL
         ).then((res) => {
-            console.log("profile resulut", res);
             response.data.isLoggin = true;
         }).catch((err) => {
             response.status = false;
@@ -114,6 +112,11 @@ export default class AuthService extends BaseService {
             if (err.response.status === 403 && err.response.data.data.verificationRequired) {
                 response.data.isLoggin = true;
                 response.data.verifyPassword = true;
+            }
+
+            if (err.response.status === 401) {
+                localStorage.removeItem(AuthEnum.Token);
+                localStorage.removeItem(AuthEnum.SessionIdentifier);
             }
         });
 

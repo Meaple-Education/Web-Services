@@ -4,7 +4,7 @@ import './scss/style.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './redux/reducers';
@@ -12,10 +12,15 @@ import { AuthEnum } from './enum/auth';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
+const composeEnhancers =
+    typeof window === 'object' &&
+        (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+        (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        }) : compose;
 
 const store = createStore(
     rootReducer,
-    applyMiddleware(thunk)
+    composeEnhancers(applyMiddleware(thunk)),
 )
 
 axios.defaults.headers['Authorization'] = 'Bearer ' + localStorage.getItem(AuthEnum.Token)

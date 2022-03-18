@@ -1,4 +1,3 @@
-import axios from "axios";
 import AuthService from "../../services/AuthService";
 import { ActionTypes } from "./types";
 
@@ -18,7 +17,7 @@ export interface AuthLoadProfile {
 export const authLoadProfile: AuthLoadProfile = () => async (dispatch: any, getState: any) => {
     const authService = new AuthService();
     const response = await authService.loadProfile();
-    console.log('resposne', response);
+
     dispatch({
         type: ActionTypes.authLoadProfileAction,
         payload: {

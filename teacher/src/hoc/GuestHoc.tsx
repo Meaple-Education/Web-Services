@@ -27,6 +27,11 @@ export default function GuestHoc(ComponentToProtect: any) {
         componentDidMount() {
             if (this.props.authState.verifyPassword && this.props.location.pathname !== PageEndpoint.verifyPassword) {
                 this.props.history.push(PageEndpoint.verifyPassword);
+                return;
+            }
+
+            if (this.props.authState.isLoggin && !this.props.authState.verifyPassword) {
+                this.props.history.push(PageEndpoint.schoolList);
             }
         }
 
