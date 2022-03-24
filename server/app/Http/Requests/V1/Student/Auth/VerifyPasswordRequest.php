@@ -17,7 +17,7 @@ class VerifyPasswordRequest extends BaseRequest
      */
     public function authorize()
     {
-        return Auth::guard('api')->check();
+        return Auth::guard('student')->check();
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace App\Tution\Student\ServicesImpl;
 
 use Hash;
-use Validator;
 
 use App\Tution\Student\Services\UserService;
 use App\Tution\Repositories\StudentRepository;
@@ -22,20 +21,20 @@ class UserServiceImpl implements UserService
     {
         $input = $request->only('name', 'email', 'password');
 
-        $createUser = $this->repo->create($input);
+        $createStudent = $this->repo->create($input);
 
-        $createUser['data'] = [];
+        $createStudent['data'] = [];
 
-        return $createUser;
+        return $createStudent;
     }
 
     public function login(Request $request)
     {
         $input = $request->only('email', 'otp');
 
-        $userInfo = $this->repo->getByEmail($input['email']);
+        $studentInfo = $this->repo->getByEmail($input['email']);
 
-        if ((int)$userInfo->email_verified === 0) {
+        if ((int)$studentInfo->email_verified === 0) {
             return [
                 'status' => false,
                 'code' => 422,
@@ -44,7 +43,7 @@ class UserServiceImpl implements UserService
             ];
         }
 
-        if ((int) $userInfo->status !== 1) {
+        if ((int) $studentInfo->status !== 1) {
             return [
                 'status' => false,
                 'code' => 422,
@@ -53,7 +52,7 @@ class UserServiceImpl implements UserService
             ];
         }
 
-        if (!$userInfo->isOTPValid($input['otp'])) {
+        if (!$studentInfo->isOTPValid($input['otp'])) {
             return [
                 'status' => false,
                 'code' => 422,
@@ -62,7 +61,7 @@ class UserServiceImpl implements UserService
             ];
         }
 
-        $createSession = $this->repo->createSession($userInfo->id);
+        $createSession = $this->repo->createSession($studentInfo->id);
 
         if ($createSession['status']) {
             $createSession = [
@@ -70,7 +69,7 @@ class UserServiceImpl implements UserService
                 'code' => 200,
                 'msg' => 'Login success!',
                 'data' => [
-                    'token' => $userInfo->createToken('app')->accessToken,
+                    'token' => $studentInfo->createToken('app')->accessToken,
                     'sessionIdentifier' => $createSession['data']->identifier
                 ],
             ];
@@ -83,9 +82,9 @@ class UserServiceImpl implements UserService
     {
         $input = $request->only('code', 'email');
 
-        $userInfo = $this->repo->getByEmail($input['email']);
+        $studentInfo = $this->repo->getByEmail($input['email']);
 
-        if ($userInfo->email_verified) {
+        if ($studentInfo->email_verified) {
             return [
                 'status' => true,
                 'code' => 200,
@@ -94,7 +93,7 @@ class UserServiceImpl implements UserService
             ];
         }
 
-        if (!Hash::check($userInfo->id . $userInfo->auth_code, $input['code'])) {
+        if (!Hash::check($studentInfo->id . $studentInfo->auth_code, $input['code'])) {
             return [
                 'status' => false,
                 'code' => 422,
@@ -103,17 +102,18 @@ class UserServiceImpl implements UserService
             ];
         }
 
-        return $this->repo->verify($userInfo->id);
+        return $this->repo->verify($studentInfo->id);
     }
 
     public function passwordVerify(Request $request)
     {
         $input = $request->only('password');
 
-        $userInfo = $this->repo->getOne($request->user()->id);
+        $studentInfo = $this->repo->getOne($request->user()->id);
 
-        if (!Hash::check($input['password'], $userInfo->password)) {
+        if (!Hash::check($input['password'], $studentInfo->password)) {
             $wrongAttempted = $this->repo->wrongAttempted($request->attributes->get('sessionInfo')->id);
+
             if (!$wrongAttempted['status']) {
                 // @codeCoverageIgnoreStart
                 return $wrongAttempted;

@@ -27,6 +27,12 @@ abstract class TestCase extends BaseTestCase
 
     public function prepLoginTest()
     {
+        $this->teacherLogin();
+        $this->studentLogin();
+    }
+
+    public function teacherLogin()
+    {
         \App\Models\User::insert([
             'name' => 'test',
             'password' => bcrypt('admin123'),
@@ -74,6 +80,66 @@ abstract class TestCase extends BaseTestCase
         ]);
 
         \App\Models\UserSession::insert([
+            'parent_id' => 1,
+            'identifier' => 'identifier3',
+            'ip' => '0.0.0.0',
+            'browser' => '',
+            'os' => '',
+            'is_verify' => false,
+            'is_valid' => true,
+            'last_login' => '2021-09-14 20:05:58',
+        ]);
+    }
+
+    public function studentLogin()
+    {
+        \App\Models\Student::insert([
+            'name' => 'test',
+            'password' => bcrypt('admin123'),
+            'status' => 1,
+            'email_verified' => 1,
+            'email' => 'test@gmail.com',
+            'updated_at' => '2021-09-14 20:05:58',
+            'created_at' => '2021-09-14 20:05:58',
+            'auth_code' => 'XVOMEQ6DEFV3KSUN',
+            'auth_created' => '2021-09-14 20:05:58',
+        ]);
+
+        \App\Models\Student::insert([
+            'name' => 'test2',
+            'password' => bcrypt('admin123'),
+            'status' => 0,
+            'email_verified' => 1,
+            'email' => 'test2@gmail.com',
+            'updated_at' => '2021-09-14 20:05:58',
+            'created_at' => '2021-09-14 20:05:58',
+            'auth_code' => 'XVOMEQ6DEFV3KSUS',
+            'auth_created' => '2021-09-14 20:05:58',
+        ]);
+
+        \App\Models\StudentSession::insert([
+            'parent_id' => 1,
+            'identifier' => 'identifier',
+            'ip' => '0.0.0.0',
+            'browser' => '',
+            'os' => '',
+            'is_verify' => true,
+            'is_valid' => true,
+            'last_login' => '2021-09-14 20:05:58',
+        ]);
+
+        \App\Models\StudentSession::insert([
+            'parent_id' => 1,
+            'identifier' => 'identifier2',
+            'ip' => '0.0.0.0',
+            'browser' => '',
+            'os' => '',
+            'is_verify' => true,
+            'is_valid' => false,
+            'last_login' => '2021-09-14 20:05:58',
+        ]);
+
+        \App\Models\StudentSession::insert([
             'parent_id' => 1,
             'identifier' => 'identifier3',
             'ip' => '0.0.0.0',

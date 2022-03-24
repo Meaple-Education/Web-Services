@@ -18,11 +18,11 @@ class CreateStudentTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('auth_code')->unique();
+            $table->string('auth_code')->unique()->nullable();
             $table->text('image')->nullable();
             $table->string('phone')->nullable()->unique();
             $table->unsignedBigInteger('status')->default(1);
-            $table->datetime('auth_created');
+            $table->datetime('auth_created')->nullable();
             $table->datetime('last_login')->nullable();
             $table->boolean('email_verified')->default(0);
             $table->datetime('activated_at')->nullable();

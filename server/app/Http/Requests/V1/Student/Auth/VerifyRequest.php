@@ -27,7 +27,7 @@ class VerifyRequest extends FormRequest
     {
         return [
             'code' => 'required',
-            'email' => 'required|email|exists:user,email',
+            'email' => 'required|email|exists:student,email',
         ];
     }
 

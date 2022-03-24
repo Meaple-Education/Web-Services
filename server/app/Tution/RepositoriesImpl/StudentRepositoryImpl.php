@@ -5,7 +5,9 @@ namespace App\Tution\RepositoriesImpl;
 use DB;
 
 use App\Models\Student;
+use App\Models\StudentSession;
 use App\Tution\Repositories\StudentRepository;
+use Jenssegers\Agent\Agent;
 
 class StudentRepositoryImpl implements StudentRepository
 {
@@ -27,12 +29,12 @@ class StudentRepositoryImpl implements StudentRepository
 
     function create($input)
     {
-        $user = null;
+        $student = null;
 
         DB::beginTransaction();
 
         try {
-            $user = Student::create([
+            $student = Student::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => bcrypt($input['password']),
@@ -43,7 +45,7 @@ class StudentRepositoryImpl implements StudentRepository
                 'status' => false,
                 'code' => 422,
                 'data' => [],
-                'msg' => 'Failed to create user!',
+                'msg' => 'Failed to create student!',
             ];
 
             if (config('app.debug')) {
@@ -61,8 +63,8 @@ class StudentRepositoryImpl implements StudentRepository
         return [
             'status' => true,
             'code' => 201,
-            'data' => $user,
-            'msg' => 'Verification email is send to ' . $user->email . '. Please also check your spam folder.',
+            'data' => $student,
+            'msg' => 'Verification email is send to ' . $student->email . '. Please also check your spam folder.',
         ];
     }
 
@@ -78,18 +80,18 @@ class StudentRepositoryImpl implements StudentRepository
         DB::beginTransaction();
 
         try {
-            $user = $this->getOne($id);
-            $user->name = (string) $input['name'];
-            $user->phone = (string) $input['phone'];
-            $user->image = (string) $input['image'];
-            $user->save();
+            $student = $this->getOne($id);
+            $student->name = (string) $input['name'];
+            $student->phone = (string) $input['phone'];
+            $student->image = (string) $input['image'];
+            $student->save();
         } catch (\Exception $e) {
             DB::rollback();
             $res = [
                 'status' => false,
                 'code' => 422,
                 'data' => [],
-                'msg' => 'Failed to update user info!',
+                'msg' => 'Failed to update student info!',
             ];
 
             if (config('app.debug')) {
@@ -112,18 +114,18 @@ class StudentRepositoryImpl implements StudentRepository
         DB::beginTransaction();
 
         try {
-            $user = Student::find($id);
-            $user->email_verified = true;
-            $user->activated_at = gmdate("Y-m-d H:i:s");
-            $user->save();
-            $user->sendOTPCode();
+            $student = Student::find($id);
+            $student->email_verified = true;
+            $student->activated_at = gmdate("Y-m-d H:i:s");
+            $student->save();
+            $student->sendOTPCode();
         } catch (\Exception $e) {
             DB::rollback();
             $res = [
                 'status' => false,
                 'code' => 422,
                 'data' => [],
-                'msg' => 'Failed to verify user!',
+                'msg' => 'Failed to verify student!',
             ];
 
             if (config('app.debug')) {
@@ -151,16 +153,16 @@ class StudentRepositoryImpl implements StudentRepository
         DB::beginTransaction();
 
         try {
-            $userSession = UserSession::find($id);
-            $userSession->is_verify = true;
-            $userSession->save();
+            $studentSession = StudentSession::find($id);
+            $studentSession->is_verify = true;
+            $studentSession->save();
         } catch (\Exception $e) {
             DB::rollback();
             $res = [
                 'status' => false,
                 'code' => 422,
                 'data' => [],
-                'msg' => 'Failed to verify user session!',
+                'msg' => 'Failed to verify student session!',
             ];
 
             if (config('app.debug')) {
@@ -197,13 +199,13 @@ class StudentRepositoryImpl implements StudentRepository
         DB::beginTransaction();
 
         try {
-            $userSession = UserSession::find($id);
-            $userSession->wrong_attempted++;
-            if ($userSession->wrong_attempted > 2) {
-                $userSession->is_valid = 0;
+            $studentSession = StudentSession::find($id);
+            $studentSession->wrong_attempted++;
+            if ($studentSession->wrong_attempted > 2) {
+                $studentSession->is_valid = 0;
                 $res['data']['isExpire'] = true;
             }
-            $userSession->save();
+            $studentSession->save();
         } catch (\Exception $e) {
             DB::rollback();
             $res = [
@@ -212,7 +214,7 @@ class StudentRepositoryImpl implements StudentRepository
                 'data' => [
                     'isExpire' => false,
                 ],
-                'msg' => 'Failed to verify user session!',
+                'msg' => 'Failed to verify student session!',
             ];
 
             if (config('app.debug')) {
@@ -242,16 +244,16 @@ class StudentRepositoryImpl implements StudentRepository
         DB::beginTransaction();
 
         try {
-            $user = $this->getOne($id);
-            $user->status = $status;
-            $user->save();
+            $student = $this->getOne($id);
+            $student->status = $status;
+            $student->save();
         } catch (\Exception $e) {
             DB::rollback();
             $res = [
                 'status' => false,
                 'code' => 422,
                 'data' => [],
-                'msg' => 'Failed to update user status!',
+                'msg' => 'Failed to update student status!',
             ];
 
             if (config('app.debug')) {
@@ -271,14 +273,14 @@ class StudentRepositoryImpl implements StudentRepository
 
     function createSession($id)
     {
-        $userSession = null;
+        $studentSession = null;
 
         DB::beginTransaction();
 
         try {
             $agent = new Agent();
 
-            $userSession = UserSession::create([
+            $studentSession = StudentSession::create([
                 'parent_id' => $id,
                 'identifier' => $this->getOne($id)->getIdentifier(),
                 'browser' => (string) $agent->browser(),
@@ -292,7 +294,7 @@ class StudentRepositoryImpl implements StudentRepository
                 'status' => false,
                 'code' => 422,
                 'data' => [],
-                'msg' => 'Failed to create user session!',
+                'msg' => 'Failed to create student session!',
             ];
 
             if (config('app.debug')) {
@@ -310,8 +312,8 @@ class StudentRepositoryImpl implements StudentRepository
         return [
             'status' => true,
             'code' => 201,
-            'data' => $userSession,
-            'msg' => 'User session created!',
+            'data' => $studentSession,
+            'msg' => 'Student session created!',
         ];
     }
 
@@ -328,7 +330,7 @@ class StudentRepositoryImpl implements StudentRepository
                 'status' => false,
                 'code' => 422,
                 'data' => [],
-                'msg' => 'Failed to delete user!',
+                'msg' => 'Failed to delete student!',
             ];
 
             if (config('app.debug')) {
@@ -346,7 +348,7 @@ class StudentRepositoryImpl implements StudentRepository
             'status' => true,
             'code' => 200,
             'data' => [],
-            'msg' => 'User deleted!',
+            'msg' => 'Student deleted!',
         ];
     }
 }
