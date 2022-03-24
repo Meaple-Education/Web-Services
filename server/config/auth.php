@@ -40,6 +40,10 @@ return [
             'driver' => 'passport',
             'provider' => 'users',
         ],
+        'student' => [
+            'driver' => 'passport',
+            'provider' => 'student',
+        ],
     ],
 
     /*
@@ -63,6 +67,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'student' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Student::class,
         ],
 
         // 'users' => [

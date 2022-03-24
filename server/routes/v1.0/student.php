@@ -20,6 +20,16 @@ Route::get('/', function (Request $request) {
     ]);
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+    Route::post('register', 'V1\\Student\\UserController@register')->name('register');
+    Route::post('login', 'V1\\Student\\UserController@login')->name('login');
+    Route::post('verify/account', 'V1\\Student\\UserController@verifyAccount')->name('verifyAccount');
+});
+
+Route::group(['middleware' => ['auth:api', 'v1.student.token']], function () {
+    Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('profile', 'V1\\Student\\UserController@getProfile')->name('profile');
+        // Route::post('logout', 'V1\\Student\\UserController@getProfile')->name('profile');
+        Route::post('verify/password', 'V1\\Student\\UserController@passwordVerify')->name('verifyPassword');
+    });
 });

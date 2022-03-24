@@ -20,12 +20,6 @@ Route::get('/', function (Request $request) {
     ]);
 })->name('default');
 
-Route::post('/', function (Request $request) {
-    return response()->json([
-        'msg' => 'I am teacher POST',
-    ]);
-})->name('default');
-
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::post('register', 'V1\\Teacher\\UserController@register')->name('register');
     Route::post('login', 'V1\\Teacher\\UserController@login')->name('login');

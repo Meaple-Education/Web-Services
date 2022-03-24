@@ -2,15 +2,21 @@
 
 namespace App\Models;
 
+use Str;
+use App\Notifications\Student\EmailConfirmNotification;
+use App\Notifications\Student\SendOTPNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
+use PragmaRX\Google2FA\Google2FA;
 
 class Student extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $table = 'student';
 
     /**
      * The attributes that are mass assignable.
@@ -28,6 +34,7 @@ class Student extends Authenticatable
         'auth_created',
         'created_by',
         'last_login',
+        'email_verified',
         'activated_at',
     ];
 
@@ -80,14 +87,26 @@ class Student extends Authenticatable
         return $google2Fa->verifyKey($this->auth_code, $otp);
     }
 
+    public function currentOTP()
+    {
+        // initialize Google 2 factor authentication lib
+        $google2Fa = new Google2FA();
+        return $google2Fa->getCurrentOtp($this->auth_code);
+    }
+
     public function getIdentifier()
     {
         $identifier = '';
 
         do {
             $identifier = Str::random(247) . date("Ymd");
-        } while (StudentSession::where('identifier', $identifier)->count() !== 0);
+        } while (UserSession::where('identifier', $identifier)->count() !== 0);
 
         return $identifier;
+    }
+
+    public function sendOTPCode()
+    {
+        $this->notify(new SendOTPNotification($this->auth_code));
     }
 }
